@@ -1,0 +1,15 @@
+C:\Users\Usuario\Documents\baseProjectSharpDevelop\baseProject\bin\Debug\baseProject.exe
+C:\Users\Usuario\Documents\baseProjectSharpDevelop\baseProject\bin\Debug\baseProject.pdb
+C:\Users\Usuario\Documents\baseProjectSharpDevelop\baseProject\bin\Debug\MonoGame.Framework.dll
+C:\Users\Usuario\Documents\baseProjectSharpDevelop\baseProject\bin\Debug\SharpDX.MediaFoundation.dll
+C:\Users\Usuario\Documents\baseProjectSharpDevelop\baseProject\bin\Debug\SharpDX.dll
+C:\Users\Usuario\Documents\baseProjectSharpDevelop\baseProject\bin\Debug\SharpDX.XAudio2.dll
+C:\Users\Usuario\Documents\baseProjectSharpDevelop\baseProject\bin\Debug\SharpDX.Direct3D11.dll
+C:\Users\Usuario\Documents\baseProjectSharpDevelop\baseProject\bin\Debug\SharpDX.DXGI.dll
+C:\Users\Usuario\Documents\baseProjectSharpDevelop\baseProject\bin\Debug\SharpDX.Direct2D1.dll
+C:\Users\Usuario\Documents\baseProjectSharpDevelop\baseProject\bin\Debug\SharpDX.XInput.dll
+C:\Users\Usuario\Documents\baseProjectSharpDevelop\baseProject\bin\Debug\SharpDX.RawInput.dll
+C:\Users\Usuario\Documents\baseProjectSharpDevelop\baseProject\bin\Debug\SharpDX.Direct3D9.dll
+C:\Users\Usuario\Documents\baseProjectSharpDevelop\baseProject\obj\x86\Debug\baseProject.csprojResolveAssemblyReference.cache
+C:\Users\Usuario\Documents\baseProjectSharpDevelop\baseProject\obj\x86\Debug\baseProject.exe
+C:\Users\Usuario\Documents\baseProjectSharpDevelop\baseProject\obj\x86\Debug\baseProject.pdb
