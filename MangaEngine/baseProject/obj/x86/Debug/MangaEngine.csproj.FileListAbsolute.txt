@@ -17,3 +17,32 @@ C:\Users\Usuario\Documents\Sharp Develop\MangaEngine\baseProject\bin\Debug\Conte
 C:\Users\Usuario\Documents\Sharp Develop\MangaEngine\baseProject\bin\Debug\Content\run\2.png
 C:\Users\Usuario\Documents\Sharp Develop\MangaEngine\baseProject\bin\Debug\Content\run\3.png
 C:\Users\Usuario\Documents\Sharp Develop\MangaEngine\baseProject\bin\Debug\Content\run\4.png
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\MangaEngine.exe
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\MangaEngine.pdb
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\MonoGame.Framework.dll
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\SharpDX.MediaFoundation.dll
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\SharpDX.dll
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\SharpDX.XAudio2.dll
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\SharpDX.Direct3D11.dll
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\SharpDX.DXGI.dll
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\SharpDX.Direct2D1.dll
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\SharpDX.XInput.dll
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\SharpDX.RawInput.dll
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\SharpDX.Direct3D9.dll
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\obj\x86\Debug\MangaEngine.csprojResolveAssemblyReference.cache
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\obj\x86\Debug\MangaEngine.exe
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\obj\x86\Debug\MangaEngine.pdb
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\corbel.spritefont
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\corbel.xnb
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\run\right\1.png
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\run\right\2.png
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\run\right\3.png
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\run\down\2.png
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\run\down\3.png
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\run\down\1.png
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\run\left\1.png
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\run\left\2.png
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\run\left\3.png
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\run\up\1.png
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\run\up\2.png
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\run\up\3.png

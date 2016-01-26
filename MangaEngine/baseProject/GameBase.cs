@@ -134,13 +134,17 @@ namespace baseProject
 		/////////////////// /// /////////////////// 
 		
 		//Carregue os resources aqui:
-		public static Sprite Spr_man;
+		public static Sprite Spr_right,Spr_left,Spr_up,Spr_down;
+		public static SpriteFont FontMain;
 		
 		public static void LoadResources(ContentManager content) //load resources
 	    {
-			//Texture2D res_man = content.Load<Texture2D>("run/1");
-			//Spr_man = new Sprite(res_man);						
-			Spr_man = new Sprite(content,"run/1","run/2","run/3","run/4");
+			//Spr_man = new Sprite(content.Load<Texture2D>("run/1"));						
+			Spr_right = new Sprite(content,"run/right/1","run/right/2","run/right/3","run/right/2");
+			Spr_left = new Sprite(content,"run/left/1","run/left/2","run/left/3","run/left/2");
+			Spr_up = new Sprite(content,"run/up/1","run/up/2","run/up/3","run/up/2");
+			Spr_down = new Sprite(content,"run/down/1","run/down/2","run/down/3","run/down/2");
+			FontMain = content.Load<SpriteFont>("corbel");
 	    }
 		
 		//Crie as instâncias aqui:
@@ -148,7 +152,10 @@ namespace baseProject
 	    {
 			//Instâncias
 			Man joao = new Man();			
-			joao.sprite = Spr_man;
+			joao.sprite = Spr_right;
+			//joao.sprite.frameSpeed = 0.5;
+			joao.xscale = 0.2;
+			joao.yscale = 0.2;
 	    }
 		
 		

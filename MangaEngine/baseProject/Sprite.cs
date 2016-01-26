@@ -21,11 +21,14 @@ namespace baseProject
 	{
 		public Texture2D[] frames;
 		public int frameCount = 0;
-		public float frameCurrent = 0;
-		public float frameSpeed = 1;
+		public double frameCurrent = 0;
+		public double frameSpeed = 1;
 		public Vector2 origin;
 		public int Width;
 		public int Height;
+		//private double xscale = 1;
+		//private double yscale = 1;
+		
 		public Color color = Color.White;
 				
 		public Sprite(params Texture2D[] frames) //passa a lista de imagens
@@ -36,39 +39,37 @@ namespace baseProject
 			this.Height = frames[0].Height;
 		}
 		
-		public Sprite(ContentManager content,params String[] files) //passa a lista de imagens
+		public Sprite(ContentManager content,params String[] files) //passa a lista de arquivos
 		{
 			this.frames = new Texture2D[files.Length];
 			for (int i = 0; i < files.Length; i++)
 	        {
 				this.frames[i] = content.Load<Texture2D>(files[i]);
 	        }
-			//this.frames = frames;	
 			this.frameCount = frames.Length;
 			this.Width = frames[0].Width;
 			this.Height = frames[0].Height;
 		}
 		
-		public void Draw(SpriteBatch s,int x,int y){
-			//if (this!=null){
+		public void Draw(SpriteBatch s,int x,int y,double xscale,double yscale,float angle,float depth){
 		    	//draw sprite
-		    	int ind = (int)Math.Floor(frameCurrent);
-		    	
-		    	Rectangle r = new Rectangle((int)(x-origin.X),(int)(y-origin.Y),Width,Height);
-		    	//Vector2.Zero
-		    	s.Draw(frames[ind],r,color);
-	    	//}
+		    	int ind = (int)Math.Floor(frameCurrent);		    	
+		    	//Rectangle r = new Rectangle((int)(x-(origin.X*xscale)),(int)(y-(origin.Y*yscale)),Convert.ToInt16(Width*xscale),Convert.ToInt16(Height*yscale));
+		    	//s.Draw(frames[ind],r,color,angle);
+		    	Rectangle pos = new Rectangle(x,y,Convert.ToInt16(Width*xscale),Convert.ToInt16(Height*yscale));
+		    	//Rectangle ori = new Rectangle(x,y,Width,Height);		    	 
+		    	s.Draw(frames[ind],pos,null,color,angle,origin,SpriteEffects.None,depth);//Vector2.One SpriteEffects.None		    	
 		}
 		
 		public void Step(){
-			//if (sprite!=null){
-		    	if (frameCurrent+frameSpeed<=frameCount-1  ){
-		    		frameCurrent += frameSpeed/10;
-		    	}
-		    	else{
-		    		frameCurrent = 0;
-		    	}
-	    	//}
+			double fator = frameSpeed/25;//+fator
+			
+			if (frameCurrent<frameCount){
+				frameCurrent += fator;
+				if (frameCurrent>=frameCount) {frameCurrent=0;}//resetar extouro
+			}			
+			else 
+			frameCurrent += 0;			
 		}
 		
 	}

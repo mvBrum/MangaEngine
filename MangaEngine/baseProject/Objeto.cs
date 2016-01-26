@@ -27,13 +27,12 @@ namespace baseProject
 		public int x = 0;
 		public int y = 0;
 		public Sprite sprite;
+		public double xscale = 1;
+		public double yscale = 1;
+		public float angle = 0;
+		public float depth = 1;
 		
-		/*public Objeto(Texture2D sprite,int x,int y)
-		{
-			this.sprite=sprite;
-			this.x=x;
-			this.y=y;
-		}*/
+
 		public Objeto(){
 			GameBase.objetos.Add(this);
 			Create();
@@ -49,33 +48,16 @@ namespace baseProject
 	   
 	    public virtual void Step()
 	    {
-	    	/*
-	    	//sprite ciclo
-	    	if (sprite!=null){
-		    	if (sprite.frameCurrent+sprite.frameSpeed<=sprite.frameCount-1  ){
-		    		sprite.frameCurrent += sprite.frameSpeed/10;
-		    	}
-		    	else{
-		    		sprite.frameCurrent = 0;
-		    	}
-	    	}
-	    	*/
 	    	sprite.Step();
 	    }
 	   
 	    public virtual void Draw(SpriteBatch s)
 	    {
-	    	/*
-	    	if (sprite!=null){
-		    	//draw sprite
-		    	int ind = (int)Math.Floor(sprite.frameCurrent);
-		    	
-		    	Rectangle r = new Rectangle((int)(x-sprite.origin.X),(int)(y-sprite.origin.Y),sprite.Width,sprite.Height);
-		    	//Vector2.Zero
-		    	s.Draw(sprite.frames[ind],r,sprite.color);
-	    	}
-	    	*/
-	    	sprite.Draw(s,x,y);
+	    	depth = ((float)(y)/(float)(292));//(float)(1-(1/(y+1)));//(float)(y/292);//(float)(1-(0.99/(y+0.001)))+0.01f;
+	    	if (depth>1) {depth=1;}
+	    	else 
+	    	if (depth<0) {depth=0;}
+	    	sprite.Draw(s,x,y,xscale,yscale,angle,depth);
 	    }
 	   
 	    public virtual void Destroy()
