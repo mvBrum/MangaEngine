@@ -8,9 +8,9 @@ ok	angle, cor, depth,scale
 ok	move objeto angle
 ok	fps
 ok	timer
-	colisão box
-	click
-	criar insância
+ok	colisão box
+ok	click
+	criar instância
 	destruir instância
 	ativar/desativar instância (step,timer,draw)
 		

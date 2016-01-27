@@ -53,7 +53,7 @@ namespace baseProject
 		{
 			// TODO: Add your initialization logic here						
 			base.Initialize ();
-				
+			//CreateAll();	
 		}
 
 		/// <summary>
@@ -91,8 +91,12 @@ namespace baseProject
 			mouse = Mouse.GetState();			
 			//medir fps
 			setFps(gameTime);
-			
-			framesElapsed++;
+						
+			//test criar instancia:
+			if(GameBase.mouse.RightButton == ButtonState.Pressed)
+			{
+				//Man man = new Man("new",mouse.X,mouse.Y,Spr_down,0.1,0.1);//GameBase.mouse.X,GameBase.mouse.Y,GameBase.Spr_up);
+			}
 			
 			UpdateAll();
 			
@@ -112,7 +116,7 @@ namespace baseProject
 			spriteBatch.Begin(SpriteSortMode.FrontToBack);
 				DrawAll(spriteBatch);
 				
-				spriteBatch.DrawString(GameBase.FontMain, "FPS:"+GameBase.fps+" rate:"+frameCounter, new Vector2(10, 10), Color.Black);
+				spriteBatch.DrawString(GameBase.FontMain, "FPS:"+GameBase.fps+" rate:"+frameCounter+" Instancias:"+objetos.Count, new Vector2(10, 10), Color.Black);
 				spriteBatch.DrawString(GameBase.FontMain, "mouse:"+GameBase.mouse.X+","+GameBase.mouse.Y, new Vector2(10, 40), Color.Black);
 				
 			spriteBatch.End();
@@ -136,16 +140,30 @@ namespace baseProject
 	        }
 			
 			frameCounter++;
+			framesElapsed++;
 		}
+		
+		public static void CreateAll()
+	    {	       
+	        foreach(Objeto current in objetos)
+	        {
+	        	current.Create();
+	        }
+	    }
 		
 		public static void UpdateAll()
 	    {
 	        //Call objetos Update
-	        foreach(Objeto current in objetos)
-	        {
-	            current.Step();
+	        try{ //prevenir erro por criação de instâncias, enquanto a lista é percorrida
+		        foreach(Objeto current in objetos)
+		        {
+		            current.Step();
+		        }
 	        }
-	       
+	        catch{
+	        	
+	        }
+	        
 	        //Destroy objetos listed to be destroyed
 	        for(int i=0; i<objetosToDestroy.Count; i++)
 	        {
@@ -185,13 +203,13 @@ namespace baseProject
 		public static void LoadResources(ContentManager content) //load resources
 	    {
 			//Spr_man = new Sprite(content.Load<Texture2D>("run/1"));						
-			Spr_right = new Sprite(content,"run/right/1","run/right/2","run/right/3","run/right/2");
+			Spr_right = new Sprite(content,"x","x","x","x");//"run/right/1","run/right/2","run/right/3","run/right/2");
 			//Spr_right.setOrigin(Sprite.Bounds.CENTER);
-			Spr_left = new Sprite(content,"run/left/1","run/left/2","run/left/3","run/left/2");
+			Spr_left = new Sprite(content,"x","x","x","x");//"run/left/1","run/left/2","run/left/3","run/left/2");
 			//Spr_left.setOrigin(Sprite.Bounds.CENTER);
-			Spr_up = new Sprite(content,"run/up/1","run/up/2","run/up/3","run/up/2");
+			Spr_up = new Sprite(content,"x","x","x","x");//"run/up/1","run/up/2","run/up/3","run/up/2");
 			//Spr_up.setOrigin(Sprite.Bounds.CENTER);			
-			Spr_down = new Sprite(content,"run/down/1","run/down/2","run/down/3","run/down/2");
+			Spr_down = new Sprite(content,"x","x","x","x");//"run/down/1","run/down/2","run/down/3","run/down/2");
 			//Spr_down.setOrigin(Sprite.Bounds.CENTER);
 			
 			FontMain = content.Load<SpriteFont>("corbel");
@@ -203,27 +221,30 @@ namespace baseProject
 		public static void GameStart() //Início do jogo, crie as instâncias aqui!
 	    {
 			//Instâncias
-			joao = new Man();			
-			joao.sprite = Spr_down;
+			joao = new Man("Joao",100,300,Spr_down,0.1,0.1);			
+			//joao.sprite = Spr_down;
 			//joao.sprite.frameSpeed = 0.5;
-			joao.xscale = 0.1;
-			joao.yscale = 0.1;
+			//joao.xscale = 0.1;
+			//joao.yscale = 0.1;
 			//joao.setScale(0.1,0.1);
-			joao.x = 100;
-			joao.y = 300;
+			//joao.x = 100;
+			//joao.y = 300;
+			//joao.color = Color.Black;
 			//joao.setSprite(Spr_right);
 			//joao.sprite.setOrigin(Sprite.Bounds.CENTER);
 			
-			jose = new Man();//(Man)joao;
-			jose.xscale = 0.1;
-			jose.yscale = 0.1;
-			jose.sprite = Spr_down;			
+			jose = new Man("Jose",200,300,Spr_down,0.1,0.1);
+			//jose.xscale = 0.1;
+			//jose.yscale = 0.1;
+			//jose.sprite = Spr_down;			
 			//jose.setScale(0.1,0.1);
-			jose.x = 200;
-			jose.y = 300;
+			//jose.x = 200;
+			//jose.y = 300;
 			//jose.setSprite(Spr_right);
-			jose.angle = 1;
-			jose.color = Color.Blue;
+			//jose.angle = 1;
+			//jose.color = Color.Black;
+			
+			Man maria = new Man("Maria",100,100,Spr_down,0.1,0.1);
 	    }
 		
 		

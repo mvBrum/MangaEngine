@@ -63,11 +63,11 @@ namespace baseProject
 			//setOrigin(200,200);
 		}
 		
-		public void Draw(SpriteBatch s,int x,int y,Rectangle box,float angle,float depth,Color color){
+		public void Draw(SpriteBatch s,int x,int y,double xscale,double yscale,float angle,float depth,Color color){
 		    	
 			//draw sprite
-	    	int ind = (int)Math.Floor(frameCurrent);		    			    	
-	    	//Rectangle pos = new Rectangle(x,y,Convert.ToInt16(Width*xscale),Convert.ToInt16(Height*yscale));    	 		    	
+	    	int ind = (int)Math.Floor(frameCurrent);//arredondando o índice	    			    	
+	    	Rectangle box = new Rectangle(x,y,Convert.ToInt16(Width*xscale),Convert.ToInt16(Height*yscale));    	 		    	
 	    	s.Draw(frames[ind],box,null,color,angle/360,origin,SpriteEffects.None,depth);
 	    	//s.Draw(frames[ind],pos,null,color,angle/360,origin,new Vector2(xscale,yscale),SpriteEffects.None,depth);
 	    	//s.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList,0,10);	    	

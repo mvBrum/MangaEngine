@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace baseProject
 {
@@ -20,7 +21,7 @@ namespace baseProject
 	public abstract class Objeto
 	{
 		//Objeto
-		public String name = "unnamed";
+		protected String identify ;//= "unnamed";//para identificar a classe
 		
 		//coisas da instância
 		public int x = 0;
@@ -30,32 +31,37 @@ namespace baseProject
 		public double yscale = 1 ;//{get;}
 		public float angle = 0;//0a360
 		public float layer = 0;
-		public Color color = Color.White;
-		public Rectangle box;
+		public Color color = Color.Black;
+		public Rectangle boxCollision = new Rectangle(0,0,0,0);
 		
 		public Objeto(){
-			GameBase.objetos.Add(this);
-			Create();
+			GameBase.objetos.Add(this);			
+			//Create();
 		}
 					
+		
 		
 		 //======== Method templates
 	    
 		 public virtual void Create()
 	    {
-
+			//GameBase.objetos.Add(this);
 	    }
 	   
 	    public virtual void Step()
 	    {
-	    	//atualiza a box do player	    	
-	    	box = new Rectangle(x,y,Convert.ToInt16(sprite.Width*xscale),Convert.ToInt16(sprite.Height*yscale));
-	    	sprite.Step();
+	    	//atualiza a box do player	
+			//Convert.ToInt32(x-sprite.origin.X),Convert.ToInt32(y-sprite.origin.Y)	    	
+			if (sprite!=null){
+				boxCollision = new Rectangle(Convert.ToInt32(x-(sprite.origin.X)*xscale),Convert.ToInt32(y-(sprite.origin.Y)*yscale),Convert.ToInt16(sprite.Width*xscale),Convert.ToInt16(sprite.Height*yscale));
+				sprite.Step();
+			}
+	    	
 	    }
 	   
 	    public virtual void Draw(SpriteBatch s)
 	    {	    	
-	    	DrawSelf(s);
+	    	
 	    }
 	   
 	    public virtual void Destroy()
@@ -66,25 +72,9 @@ namespace baseProject
 	            objetosDestroy.Add(this);
 	        }*/
 	    }
-	    /*
-	    public void setSprite(Sprite sprite){
-	    	this.sprite = sprite;
-	    	setBox();
-	    }
-	    
-	    public void setScale(double xscale,double yscale){
-	    	this.xscale = xscale;
-	    	this.yscale = yscale;
-	    	setBox();
-	    }
-	    
-	    private void setBox(){
-	    	if (sprite!=null){
-	    		//box = new Rectangle(x,y,Convert.ToInt16(sprite.Width*xscale),Convert.ToInt16(sprite.Height*yscale));	    		
-	    	}
-	    }
-	    */
 	   
+	    //// Functions
+	    
 	   //Timer
 	    public Boolean timerOk(int timer){
 	    	if (timer>0 && GameBase.framesElapsed % timer == 0){
@@ -93,59 +83,40 @@ namespace baseProject
 	    	else return false;
 	    }
 	    
-	   //Colission
-	   public Boolean CollisionOk(Objeto obj1,Objeto obj2){
-	   		return obj1.box.Intersects(obj2.box);
-	   		/*if ((obj1.box.X>obj2.box.X && obj1.box.X<obj2.box.X+obj2.box.Width && obj1.box.Y>obj2.box.Y && obj1.box.Y<obj2.box.Y+obj2.box.Height)
-	   			||
-	   			(obj1.box.X+obj1.box.Width>obj2.box.X && obj1.box.X+obj1.box.Width<obj2.box.X+obj2.box.Width && obj1.box.Y>obj2.box.Y && obj1.box.Y<obj2.box.Y+obj2.box.Height)
-	   			||
-	   			(obj1.box.X>obj2.box.X && obj1.box.X<obj2.box.X+obj2.box.Width && obj1.box.Y+obj1.box.Height>obj2.box.Y && obj1.box.Y+obj1.box.Height<obj2.box.Y+obj2.box.Height)
-	   			||
-	   			(obj1.box.X+obj1.box.Width>obj2.box.X && obj1.box.X+obj1.box.Width<obj2.box.X+obj2.box.Width && obj1.box.Y+obj1.box.Height>obj2.box.Y && obj1.box.Y+obj1.box.Height<obj2.box.Y+obj2.box.Height)
-	   		){
-	   			return true;
-	   		}
-	   		else return false;	*/
-	   		
-	   		/*
-	   		double o1x1 = obj1.x-obj1.sprite.origin.X;
-	   		double o1x2 = o1x1+(obj1.sprite.Width*xscale);
-			double o1y1 = obj1.y-obj1.sprite.origin.Y;
-	   		double o1y2 = o1y1+(obj1.sprite.Height*yscale);
-
-			double o2x1 = obj2.x-obj2.sprite.origin.X;
-	   		double o2x2 = o2x1+(obj2.sprite.Width*xscale);
-			double o2y1 = obj2.y-obj2.sprite.origin.Y;
-	   		double o2y2 = o2y1+(obj2.sprite.Height*yscale);	   		
-	   		
-	   		Console.WriteLine(o1x1+","+o1x2+","+o1y1+","+o1y2+" - "+o2x1+","+o2x2+","+o2y1+","+o2y2);
-	   		*/
-	   		/*
-	   		if ((o1x1>o2x1 && o1x1<o2x2 && o1y1>o2y1 && o1y1<o2y2 )
-	   			||
-	   			(o1x2>o2x1 && o1x2<o2x2 && o1y1>o2y1 && o1y1<o2y2 )
-	   			||
-	   			(o1x1>o2x1 && o1x1<o2x2 && o1y2>o2y1 && o1y2<o2y2 )
-	   			||
-	   			(o1x2>o2x1 && o1x2<o2x2 && o1y2>o2y1 && o1y2<o2y2 )
-	   		)*/
-	   		/*
- 			if ((o1y1>o2y1 || o1y1<o2y2 || o1y2>o2y1 || o1y2<o2y2)
-	   			&&
-	   			(o1x1>o2x1 || o1x1<o2x2 || o1x2>o2x1 || o1x2<o2x2))
-	   		{
-	   			return true;
-	   		}
-	   		else return false;
-	   		*/
-	   		
-	    }
+	   //Collision
+	   public Boolean CollisionOk(String identify2){
+	   		Boolean col=false;
+	   		foreach(Objeto current in GameBase.objetos)
+	        {
+	   			if (current.identify==identify2 && this!=current && col==false){
+	            	col = this.boxCollision.Intersects(current.boxCollision);
+	   			}
+	        }	
+			return col;	   		
+	   }
+	   
+	   public Boolean CollisionInstancesOk(Objeto obj1,Objeto obj2){
+	   		return obj1.boxCollision.Intersects(obj2.boxCollision);	   		
+	   }
+	   
+	   
 	   
 	    public void DrawSelf(SpriteBatch s){	    	
-	    	sprite.Draw(s,x,y,box,angle,layer,color);
+		   	if (sprite!=null){
+		   		sprite.Draw(s,x,y,xscale,yscale,angle,layer,color);
+		   	}
 	    }
 	    
+	   //Click
+	   public Boolean ClickOk(){
+	  		if(GameBase.mouse.LeftButton == ButtonState.Pressed)
+			{
+	  			Rectangle mbox = new Rectangle(GameBase.mouse.X,GameBase.mouse.Y,1,1);
+	  			return mbox.Intersects(boxCollision);
+			}
+	  		else return false;
+	   }
+	   
 	    public void setDepthByY(){
 	    	layer = ((float)(y)/(float)(GameBase.TelaHeight));
 	    	if (layer>1) {layer=1;}
@@ -161,8 +132,16 @@ namespace baseProject
 			Vector2 pos = new Vector2(x,y);
 			pos += dir*speed;
 			
-			x = Convert.ToInt32(pos.X);//Convert.ToInt32(dir.X*speed);
-			y = Convert.ToInt32(pos.Y);//Convert.ToInt32(dir.Y*speed);
+			x = Convert.ToInt32(pos.X);
+			y = Convert.ToInt32(pos.Y);
+		}
+	    
+	    public void DrawRectangle(Rectangle coords, Color color,SpriteBatch s)
+		{
+	    	//DrawRectangle(new Rectangle((int)playerPos.X, (int)playerPos.Y, 5, 5), Color.Fuchsia);
+	    	var rect = new Texture2D(s.GraphicsDevice, 1, 1);
+		    rect.SetData(new[] { color });
+		    s.Draw(rect, coords, color);
 		}
 	    
 	}

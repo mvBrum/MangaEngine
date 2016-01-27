@@ -46,3 +46,4 @@ C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseP
 C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\run\up\1.png
 C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\run\up\2.png
 C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\run\up\3.png
+C:\Users\Usuario\OneDrive\DEV\MonoGame\MangaEngine\MangaEngine\MangaEngine\baseProject\bin\Debug\Content\x.png
