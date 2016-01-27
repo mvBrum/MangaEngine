@@ -21,7 +21,7 @@ namespace baseProject
 	public abstract class Objeto
 	{
 		//Objeto
-		protected String identify ;//= "unnamed";//para identificar a classe
+		public String identify ;//= "unnamed";//para identificar a classe
 		
 		//coisas da instância
 		public int x = 0;
@@ -40,18 +40,16 @@ namespace baseProject
 		}
 					
 		
+		public void setIdentify(String identify){
+			this.identify = identify;
+		}
 		
 		 //======== Method templates
 	    
-		 public virtual void Create()
-	    {
-			//GameBase.objetos.Add(this);
-	    }
 	   
 	    public virtual void Step()
 	    {
-	    	//atualiza a box do player	
-			//Convert.ToInt32(x-sprite.origin.X),Convert.ToInt32(y-sprite.origin.Y)	    	
+	    	//atualiza a box do player				
 			if (sprite!=null){
 				boxCollision = new Rectangle(Convert.ToInt32(x-(sprite.origin.X)*xscale),Convert.ToInt32(y-(sprite.origin.Y)*yscale),Convert.ToInt16(sprite.Width*xscale),Convert.ToInt16(sprite.Height*yscale));
 				sprite.Step();
@@ -59,10 +57,7 @@ namespace baseProject
 	    	
 	    }
 	   
-	    public virtual void Draw(SpriteBatch s)
-	    {	    	
-	    	
-	    }
+	    public abstract void Draw(SpriteBatch s);
 	   
 	    public virtual void Destroy()
 	    {
@@ -137,11 +132,8 @@ namespace baseProject
 		}
 	    
 	    public void DrawRectangle(Rectangle coords, Color color,SpriteBatch s)
-		{
-	    	//DrawRectangle(new Rectangle((int)playerPos.X, (int)playerPos.Y, 5, 5), Color.Fuchsia);
-	    	var rect = new Texture2D(s.GraphicsDevice, 1, 1);
-		    rect.SetData(new[] { color });
-		    s.Draw(rect, coords, color);
+		{	    	
+		    s.Draw(GameBase.rect, coords, color);
 		}
 	    
 	}

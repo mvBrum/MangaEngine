@@ -69,8 +69,8 @@ namespace baseProject
 	    	int ind = (int)Math.Floor(frameCurrent);//arredondando o índice	    			    	
 	    	Rectangle box = new Rectangle(x,y,Convert.ToInt16(Width*xscale),Convert.ToInt16(Height*yscale));    	 		    	
 	    	s.Draw(frames[ind],box,null,color,angle/360,origin,SpriteEffects.None,depth);
-	    	//s.Draw(frames[ind],pos,null,color,angle/360,origin,new Vector2(xscale,yscale),SpriteEffects.None,depth);
 	    	//s.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList,0,10);	    	
+	    	
 		}
 		
 		public void Step(){

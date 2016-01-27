@@ -22,7 +22,7 @@ namespace baseProject
 		SpriteBatch spriteBatch;
 		TimeSpan updateFrameRate;			
 		public static  int frameCounter,framesElapsed = 0;
-		
+		public static Texture2D rect;
 		//Geral
 		public static List<Objeto> objetos = new List<Objeto>();
 		public static List<Objeto> objetosToDestroy = new List<Objeto>();
@@ -52,8 +52,10 @@ namespace baseProject
 		protected override void Initialize ()
 		{
 			// TODO: Add your initialization logic here						
-			base.Initialize ();
-			//CreateAll();	
+			base.Initialize ();	
+			//rect
+			rect = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
+		    rect.SetData(new[] { Color.Gray });
 		}
 
 		/// <summary>
@@ -95,7 +97,7 @@ namespace baseProject
 			//test criar instancia:
 			if(GameBase.mouse.RightButton == ButtonState.Pressed)
 			{
-				//Man man = new Man("new",mouse.X,mouse.Y,Spr_down,0.1,0.1);//GameBase.mouse.X,GameBase.mouse.Y,GameBase.Spr_up);
+				Man man = new Man("new",mouse.X,mouse.Y,Spr_down,0.1,0.1);//GameBase.mouse.X,GameBase.mouse.Y,GameBase.Spr_up);
 			}
 			
 			UpdateAll();
@@ -113,7 +115,7 @@ namespace baseProject
 			graphics.GraphicsDevice.Clear (Color.CornflowerBlue);
 		
 			//TODO: Add your drawing code here
-			spriteBatch.Begin(SpriteSortMode.FrontToBack);
+			spriteBatch.Begin();//SpriteSortMode.FrontToBack
 				DrawAll(spriteBatch);
 				
 				spriteBatch.DrawString(GameBase.FontMain, "FPS:"+GameBase.fps+" rate:"+frameCounter+" Instancias:"+objetos.Count, new Vector2(10, 10), Color.Black);
@@ -142,14 +144,7 @@ namespace baseProject
 			frameCounter++;
 			framesElapsed++;
 		}
-		
-		public static void CreateAll()
-	    {	       
-	        foreach(Objeto current in objetos)
-	        {
-	        	current.Create();
-	        }
-	    }
+
 		
 		public static void UpdateAll()
 	    {
@@ -203,14 +198,14 @@ namespace baseProject
 		public static void LoadResources(ContentManager content) //load resources
 	    {
 			//Spr_man = new Sprite(content.Load<Texture2D>("run/1"));						
-			Spr_right = new Sprite(content,"x","x","x","x");//"run/right/1","run/right/2","run/right/3","run/right/2");
-			//Spr_right.setOrigin(Sprite.Bounds.CENTER);
-			Spr_left = new Sprite(content,"x","x","x","x");//"run/left/1","run/left/2","run/left/3","run/left/2");
-			//Spr_left.setOrigin(Sprite.Bounds.CENTER);
-			Spr_up = new Sprite(content,"x","x","x","x");//"run/up/1","run/up/2","run/up/3","run/up/2");
-			//Spr_up.setOrigin(Sprite.Bounds.CENTER);			
-			Spr_down = new Sprite(content,"x","x","x","x");//"run/down/1","run/down/2","run/down/3","run/down/2");
-			//Spr_down.setOrigin(Sprite.Bounds.CENTER);
+			Spr_right = new Sprite(content,"run/right/1","run/right/2","run/right/3","run/right/2");
+			//Spr_right.setOrigin(Sprite.Bounds.CENTER);"x","x","x","x");//
+			Spr_left = new Sprite(content,"run/left/1","run/left/2","run/left/3","run/left/2");
+			//Spr_left.setOrigin(Sprite.Bounds.CENTER);"x","x","x","x");//
+			Spr_up = new Sprite(content,"run/up/1","run/up/2","run/up/3","run/up/2");
+			//Spr_up.setOrigin(Sprite.Bounds.CENTER);"x","x","x","x");//			
+			Spr_down = new Sprite(content,"run/down/1","run/down/2","run/down/3","run/down/2");
+			//Spr_down.setOrigin(Sprite.Bounds.CENTER);"x","x","x","x");//
 			
 			FontMain = content.Load<SpriteFont>("corbel");
 	    }
@@ -218,6 +213,7 @@ namespace baseProject
 		//Crie as instâncias aqui:
 		public static Man joao;
 		public static Man jose;
+		public static Man maria;
 		public static void GameStart() //Início do jogo, crie as instâncias aqui!
 	    {
 			//Instâncias
@@ -244,7 +240,7 @@ namespace baseProject
 			//jose.angle = 1;
 			//jose.color = Color.Black;
 			
-			Man maria = new Man("Maria",100,100,Spr_down,0.1,0.1);
+			maria = new Man("Maria",100,100,Spr_down,0.1,0.1);
 	    }
 		
 		

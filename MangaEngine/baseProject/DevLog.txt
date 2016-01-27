@@ -10,7 +10,7 @@ ok	fps
 ok	timer
 ok	colisão box
 ok	click
-	criar instância
+ok	criar instância
 	destruir instância
 	ativar/desativar instância (step,timer,draw)
 		

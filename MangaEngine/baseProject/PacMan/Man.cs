@@ -36,26 +36,16 @@ namespace baseProject.PacMan
 			this.yscale=yscale;
 			this.xstart = x;
 			this.ystart = y;
-			identify = IDENTIFY;
+			setIdentify(IDENTIFY);
 		}
-		
-		public override void Create(){
-			//base.Create();
-			
-		}
+				
 		
 		public override void Draw(SpriteBatch s)
 	    {
 			setDepthByY();
-			//base.Draw(s);
-			DrawSelf(s);						
-			//s.DrawString(GameBase.FontMain, "FPS:"+GameBase.fps+" Frames-> Count:"+sprite.frameCount+" Frame:"+sprite.frameCurrent, new Vector2(10, 10), Color.Black);
-			s.DrawString(GameBase.FontMain, name+" x:"+x+" y:"+y+" Depth:"+layer+" Angle:"+angle+" Collide?:"+col, new Vector2(x,y), Color.Black);
-			//s.DrawString(GameBase.FontMain, " x:"+box.X+" y:"+box.Y+" w:"+(box.X+box.Width)+" h:"+(box.Y+box.Height), new Vector2(x,y+20), Color.Black);
-			//MouseState mouse = new MouseState();			
-			//s.DrawString(GameBase.FontMain, "Dir:"+GameBase.PointDirection(new Vector2(0,0),new Vector2(100, 100)), new Vector2(10, 40), Color.Black);
-			//s.DrawString(GameBase.FontMain, "ORI*GIN",new Vector2(x+sprite.origin.X,y+sprite.origin.Y), Color.Black);
 			DrawRectangle(boxCollision,Color.Fuchsia,s);
+			DrawSelf(s);									
+			s.DrawString(GameBase.FontMain, name+" x:"+x+" y:"+y+" Depth:"+layer+" Angle:"+angle+" Collide?:"+col, new Vector2(x,y), Color.Black);			
 	    }
 		
 		Boolean col = false;
@@ -119,11 +109,11 @@ namespace baseProject.PacMan
 			
 			//girar: 0 a 6,28
 			if (Keyboard.GetState().IsKeyDown(Keys.Z)) {
-				angle -= 5;//(float)1/(float)25;
+				angle -= 5;
 			}
 			else
 			if (Keyboard.GetState().IsKeyDown(Keys.X)) {
-				angle += 5;//(float)1/(float)25;
+				angle += 5;
 			}
 			
 			//click
