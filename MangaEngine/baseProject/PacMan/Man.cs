@@ -18,18 +18,40 @@ namespace baseProject.PacMan
 	/// </summary>
 	public class Man : Objeto{
 		public String name = "homem";
-
+		int timer0 = 180;
+		
 		public override void Draw(SpriteBatch s)
 	    {
-			base.Draw(s);    	
-			s.DrawString(GameBase.FontMain, "Frames-> Count:"+sprite.frameCount+" Frame:"+sprite.frameCurrent+" x:"+x+" y:"+y+" Depth:"+depth, new Vector2(10, 10), Color.Black);
+			base.Draw(s); 
+			setDepthByY();			
+			//s.DrawString(GameBase.FontMain, "FPS:"+GameBase.fps+" Frames-> Count:"+sprite.frameCount+" Frame:"+sprite.frameCurrent, new Vector2(10, 10), Color.Black);
+			s.DrawString(GameBase.FontMain, " x:"+x+" y:"+y+" Depth:"+layer+" Angle:"+angle+" Collide?:"+col, new Vector2(x,y), Color.Black);
+			s.DrawString(GameBase.FontMain, " x:"+box.X+" y:"+box.Y+" w:"+(box.X+box.Width)+" h:"+(box.Y+box.Height), new Vector2(x,y+20), Color.Black);
+			//MouseState mouse = new MouseState();			
+			//s.DrawString(GameBase.FontMain, "Dir:"+GameBase.PointDirection(new Vector2(0,0),new Vector2(100, 100)), new Vector2(10, 40), Color.Black);
+			//s.DrawString(GameBase.FontMain, "ORI*GIN",new Vector2(x+sprite.origin.X,y+sprite.origin.Y), Color.Black);
 	    }
 		
+		Boolean col = false;
 		public override void Step()
 	    {
 			base.Step();   
-						
-			//controle
+			
+			//Timers
+	    	if (timerOk(timer0)){
+				x = 350;//-(new Random().Next(32,180));
+	    		y = 350;
+	    		timer0 = 0;
+	    	}
+			
+			//Colisions
+			if (CollisionOk(GameBase.joao,GameBase.jose)){
+				col=true;
+			}
+			else col=false;
+			
+			//Controls
+			if (color==Color.White){			
 			int speed = 0;
 			if (Keyboard.GetState().IsKeyDown(Keys.Right)) {
 				speed=4;
@@ -56,6 +78,27 @@ namespace baseProject.PacMan
 			}
 			
 			sprite.frameSpeed = speed/2;
+			
+			//girar: 0 a 6,28
+			if (Keyboard.GetState().IsKeyDown(Keys.Z)) {
+				angle -= 5;//(float)1/(float)25;
+			}
+			else
+			if (Keyboard.GetState().IsKeyDown(Keys.X)) {
+				angle += 5;//(float)1/(float)25;
+			}
+			}
+			
+			//mover a pos da câmera:
+			GameBase.cameraPosition.X += (Keyboard.GetState().IsKeyDown(Keys.D)? 3 : 0)-(Keyboard.GetState().IsKeyDown(Keys.A)? 3 : 0);
+			GameBase.cameraPosition.Y += (Keyboard.GetState().IsKeyDown(Keys.S)? 3 : 0)-(Keyboard.GetState().IsKeyDown(Keys.W)? 3 : 0);
+			
+			//click
+			if(GameBase.mouse.LeftButton == ButtonState.Pressed)
+			{
+				float dir = GameBase.PointDirection(new Vector2(x,y),new Vector2(GameBase.mouse.X,GameBase.mouse.Y));//x += Math.Cos(
+				MoveInDirection(dir,4);
+			}
 	    }
 	}
 	

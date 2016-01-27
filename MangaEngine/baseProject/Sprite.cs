@@ -25,13 +25,21 @@ namespace baseProject
 		public double frameSpeed = 1;
 		public Vector2 origin;
 		public int Width;
-		public int Height;
-		//private double xscale = 1;
-		//private double yscale = 1;
+		public int Height;		
 		
-		public Color color = Color.White;
-				
-		public Sprite(params Texture2D[] frames) //passa a lista de imagens
+		
+		public enum Bounds{ 
+			LEFTUP = 0,
+			LEFTDOWN = 1,
+			RIGHTUP = 2,
+			RIGHTDOWN = 3,
+			CENTER = 4,
+			CENTERUP = 5,
+			CENTERDOWN = 6			
+		}
+		
+		//criar com lista de textures
+		public Sprite(params Texture2D[] frames) 
 		{
 			this.frames = frames;	
 			this.frameCount = frames.Length;
@@ -39,7 +47,8 @@ namespace baseProject
 			this.Height = frames[0].Height;
 		}
 		
-		public Sprite(ContentManager content,params String[] files) //passa a lista de arquivos
+		//criar com lista de arquivos
+		public Sprite(ContentManager content,params String[] files) 
 		{
 			this.frames = new Texture2D[files.Length];
 			for (int i = 0; i < files.Length; i++)
@@ -49,20 +58,23 @@ namespace baseProject
 			this.frameCount = frames.Length;
 			this.Width = frames[0].Width;
 			this.Height = frames[0].Height;
+			
+			setOrigin(Sprite.Bounds.CENTERDOWN);GameBase.fps=0;
+			//setOrigin(200,200);
 		}
 		
-		public void Draw(SpriteBatch s,int x,int y,double xscale,double yscale,float angle,float depth){
-		    	//draw sprite
-		    	int ind = (int)Math.Floor(frameCurrent);		    	
-		    	//Rectangle r = new Rectangle((int)(x-(origin.X*xscale)),(int)(y-(origin.Y*yscale)),Convert.ToInt16(Width*xscale),Convert.ToInt16(Height*yscale));
-		    	//s.Draw(frames[ind],r,color,angle);
-		    	Rectangle pos = new Rectangle(x,y,Convert.ToInt16(Width*xscale),Convert.ToInt16(Height*yscale));
-		    	//Rectangle ori = new Rectangle(x,y,Width,Height);		    	 
-		    	s.Draw(frames[ind],pos,null,color,angle,origin,SpriteEffects.None,depth);//Vector2.One SpriteEffects.None		    	
+		public void Draw(SpriteBatch s,int x,int y,Rectangle box,float angle,float depth,Color color){
+		    	
+			//draw sprite
+	    	int ind = (int)Math.Floor(frameCurrent);		    			    	
+	    	//Rectangle pos = new Rectangle(x,y,Convert.ToInt16(Width*xscale),Convert.ToInt16(Height*yscale));    	 		    	
+	    	s.Draw(frames[ind],box,null,color,angle/360,origin,SpriteEffects.None,depth);
+	    	//s.Draw(frames[ind],pos,null,color,angle/360,origin,new Vector2(xscale,yscale),SpriteEffects.None,depth);
+	    	//s.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList,0,10);	    	
 		}
 		
 		public void Step(){
-			double fator = frameSpeed/25;//+fator
+			double fator = frameSpeed/(GameBase.fps+0.01);//+fator  25;
 			
 			if (frameCurrent<frameCount){
 				frameCurrent += fator;
@@ -72,6 +84,36 @@ namespace baseProject
 			frameCurrent += 0;			
 		}
 		
+		public void setOrigin(Bounds bound){
+			switch(bound){
+				case Bounds.LEFTUP:
+					origin = new Vector2(0,0);					
+				break;
+				case Bounds.LEFTDOWN:
+					origin = new Vector2(0,Height);						
+				break;
+				case Bounds.RIGHTUP:
+					origin = new Vector2(Width,0);						
+				break;
+				case Bounds.RIGHTDOWN:
+					origin = new Vector2(Width,Height);						
+				break;
+				case Bounds.CENTER:
+					origin = new Vector2(Width/2,Height/2);						
+				break;
+				case Bounds.CENTERUP:
+					origin = new Vector2(Width/2,0);						
+				break;
+				case Bounds.CENTERDOWN:
+					origin = new Vector2(Width/2,Height);						
+				break;
+			
+			}
+		}
+		
+		public void setOrigin(int xoffset,int yoffset){
+			origin = new Vector2(xoffset,yoffset);			
+		}
 	}
 	
 	

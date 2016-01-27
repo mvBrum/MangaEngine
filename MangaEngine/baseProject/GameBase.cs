@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using baseProject.PacMan;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -19,16 +20,27 @@ namespace baseProject
 	{
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
+		TimeSpan updateFrameRate;			
+		public static  int frameCounter,framesElapsed = 0;
 		
 		//Geral
 		public static List<Objeto> objetos = new List<Objeto>();
 		public static List<Objeto> objetosToDestroy = new List<Objeto>();
+		public static Rectangle cameraBoundaries = new Rectangle(0, 0, 0, 0);
+		public static Vector2 cameraPosition = new Vector2(0, 0);
+		public static int TelaWidth = 640, TelaHeight = 480;
+		public static MouseState mouse;
+		public static int fps = 1;
 		
 		public GameBase()
 		{
 			graphics = new GraphicsDeviceManager (this);
 			Content.RootDirectory = "Content";	            
-			//graphics.IsFullScreen = true;		
+			//graphics.IsFullScreen = true;	
+			IsMouseVisible = true;
+			Window.AllowUserResizing = true;
+			graphics.PreferredBackBufferWidth = TelaWidth;
+			graphics.PreferredBackBufferHeight = TelaHeight;			
 		}
 
 		/// <summary>
@@ -73,12 +85,21 @@ namespace baseProject
 				Exit ();
 			}
 			#endif
-			// TODO: Add your update logic here		
+			// TODO: Add your update logic here	
+		
+			//update get pos mouse
+			mouse = Mouse.GetState();			
+			//medir fps
+			setFps(gameTime);
+			
+			framesElapsed++;
+			
 			UpdateAll();
 			
 			base.Update (gameTime);
 		}
 
+		
 		/// <summary>
 		/// This is called when the game should draw itself.
 		/// </summary>
@@ -88,15 +109,34 @@ namespace baseProject
 			graphics.GraphicsDevice.Clear (Color.CornflowerBlue);
 		
 			//TODO: Add your drawing code here
-			spriteBatch.Begin();
+			spriteBatch.Begin(SpriteSortMode.FrontToBack);
 				DrawAll(spriteBatch);
-				//spriteBatch.Draw(Objeto.spr_man,Vector2.Zero,Color.White);				
+				
+				spriteBatch.DrawString(GameBase.FontMain, "FPS:"+GameBase.fps+" rate:"+frameCounter, new Vector2(10, 10), Color.Black);
+				spriteBatch.DrawString(GameBase.FontMain, "mouse:"+GameBase.mouse.X+","+GameBase.mouse.Y, new Vector2(10, 40), Color.Black);
+				
 			spriteBatch.End();
 			base.Draw (gameTime);
 		}
 		
 		////////
 		
+		private void setFps(GameTime gameTime){
+			//Timer FPS
+			TimeSpan timer,timerFrameRate;
+			timer = gameTime.ElapsedGameTime;//tempo decorrido de jogo			
+			timerFrameRate = TimeSpan.FromSeconds(1);//quantos ms tem 1s
+			updateFrameRate += timer;
+			
+			if (updateFrameRate > timerFrameRate)
+	        {
+				updateFrameRate -= timerFrameRate;
+				fps = frameCounter;
+	            frameCounter = 0;
+	        }
+			
+			frameCounter++;
+		}
 		
 		public static void UpdateAll()
 	    {
@@ -131,6 +171,11 @@ namespace baseProject
 	        objetos.Sort((x, y) => x.layer.CompareTo(y.layer));
 	    }
 		
+		public static float PointDirection(Vector2 pos1,Vector2 pos2)
+		{
+			return (MathHelper.ToDegrees((float)Math.Atan2(pos1.Y-pos2.Y, pos1.X-pos2.X))+180f);
+		}
+		
 		/////////////////// /// /////////////////// 
 		
 		//Carregue os resources aqui:
@@ -141,21 +186,44 @@ namespace baseProject
 	    {
 			//Spr_man = new Sprite(content.Load<Texture2D>("run/1"));						
 			Spr_right = new Sprite(content,"run/right/1","run/right/2","run/right/3","run/right/2");
+			//Spr_right.setOrigin(Sprite.Bounds.CENTER);
 			Spr_left = new Sprite(content,"run/left/1","run/left/2","run/left/3","run/left/2");
+			//Spr_left.setOrigin(Sprite.Bounds.CENTER);
 			Spr_up = new Sprite(content,"run/up/1","run/up/2","run/up/3","run/up/2");
+			//Spr_up.setOrigin(Sprite.Bounds.CENTER);			
 			Spr_down = new Sprite(content,"run/down/1","run/down/2","run/down/3","run/down/2");
+			//Spr_down.setOrigin(Sprite.Bounds.CENTER);
+			
 			FontMain = content.Load<SpriteFont>("corbel");
 	    }
 		
 		//Crie as instâncias aqui:
+		public static Man joao;
+		public static Man jose;
 		public static void GameStart() //Início do jogo, crie as instâncias aqui!
 	    {
 			//Instâncias
-			Man joao = new Man();			
-			joao.sprite = Spr_right;
+			joao = new Man();			
+			joao.sprite = Spr_down;
 			//joao.sprite.frameSpeed = 0.5;
-			joao.xscale = 0.2;
-			joao.yscale = 0.2;
+			joao.xscale = 0.1;
+			joao.yscale = 0.1;
+			//joao.setScale(0.1,0.1);
+			joao.x = 100;
+			joao.y = 300;
+			//joao.setSprite(Spr_right);
+			//joao.sprite.setOrigin(Sprite.Bounds.CENTER);
+			
+			jose = new Man();//(Man)joao;
+			jose.xscale = 0.1;
+			jose.yscale = 0.1;
+			jose.sprite = Spr_down;			
+			//jose.setScale(0.1,0.1);
+			jose.x = 200;
+			jose.y = 300;
+			//jose.setSprite(Spr_right);
+			jose.angle = 1;
+			jose.color = Color.Blue;
 	    }
 		
 		

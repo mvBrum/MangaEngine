@@ -1,0 +1,22 @@
+﻿
+	FEATURES
+ok	Estrutura: gamebase,objeto,sprite,create,step,draw...
+ok	draw sprite
+ok	animação sprite
+ok	mover objeto
+ok	angle, cor, depth,scale
+ok	move objeto angle
+ok	fps
+ok	timer
+	colisão box
+	click
+	criar insância
+	destruir instância
+	ativar/desativar instância (step,timer,draw)
+		
+	backgrounds
+	tiles
+	câmera move
+	câmera seguir
+	rooms
+	física
