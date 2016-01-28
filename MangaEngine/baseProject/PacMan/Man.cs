@@ -37,6 +37,7 @@ namespace baseProject.PacMan
 			this.xstart = x;
 			this.ystart = y;
 			setIdentify(IDENTIFY);
+			Console.WriteLine(name);
 		}
 				
 		
@@ -45,7 +46,7 @@ namespace baseProject.PacMan
 			setDepthByY();
 			DrawRectangle(boxCollision,Color.Fuchsia,s);
 			DrawSelf(s);									
-			s.DrawString(GameBase.FontMain, name+" x:"+x+" y:"+y+" Depth:"+layer+" Angle:"+angle+" Collide?:"+col, new Vector2(x,y), Color.Black);			
+			s.DrawString(GameBase.FontMain, name+" "+ok+" x:"+x+" y:"+y+" Depth:"+layer+" Angle:"+angle+" Collide?:"+col, new Vector2(x,y), Color.Black);			
 	    }
 		
 		Boolean col = false;
@@ -54,11 +55,12 @@ namespace baseProject.PacMan
 			base.Step();   
 			
 			//Timers
-	    	if (timerOk(timer0)){
+	    	/*if (timerOk(timer0)){
 				x = 350-(new Random(x).Next(100,300));
 	    		y = 350;
 	    		timer0 = 0;
 	    	}
+			*/
 			
 			//Colisions
 			//if (CollisionInstancesOk(GameBase.joao,GameBase.jose)){
@@ -117,14 +119,35 @@ namespace baseProject.PacMan
 			}
 			
 			//click
-			if(GameBase.mouse.RightButton == ButtonState.Pressed)
+			if(mouseRightCheck())// GameBase.mouse.RightButton == ButtonState.Pressed)
 			{
 				float dir = GameBase.PointDirection(new Vector2(x,y),new Vector2(GameBase.mouse.X,GameBase.mouse.Y));//x += Math.Cos(
 				MoveInDirection(dir,4);
-			}									
+			}		
+			
+			//testes						
+			if (keyboardCheck(Keys.Delete)){// Keyboard.GetState().IsKeyDown(Keys.Delete)) {
+				Console.WriteLine("Delete: "+name);
+				Destroy();
+			}
+			else
+			if (keyboardCheck(Keys.D)){//Keyboard.GetState().IsKeyDown(Keys.D)) {
+				Deactivate();
+				Console.WriteLine("Desative: "+name);
+			}
+			
 			
 			}
 			
+			if (keyboardCheck(Keys.O)){// Keyboard.GetState().IsKeyDown(Keys.Delete)) {
+				ok=true;	
+				Console.WriteLine("Ok: "+name);				
+			}
+			
+			if (keyboardCheck(Keys.A)){//Keyboard.GetState().IsKeyDown(Keys.A)) {				
+				GameBase.maria.Activate();
+				Console.WriteLine("Ative: "+name);				
+			}
 			//mover a pos da câmera:
 			//GameBase.cameraPosition.X += (Keyboard.GetState().IsKeyDown(Keys.D)? 3 : 0)-(Keyboard.GetState().IsKeyDown(Keys.A)? 3 : 0);
 			//GameBase.cameraPosition.Y += (Keyboard.GetState().IsKeyDown(Keys.S)? 3 : 0)-(Keyboard.GetState().IsKeyDown(Keys.W)? 3 : 0);
@@ -132,6 +155,9 @@ namespace baseProject.PacMan
 			
 			
 	    }
+		Boolean ok=false;//test
+		
+		
 	}
 	
  

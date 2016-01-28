@@ -25,7 +25,7 @@ namespace baseProject
 		public static Texture2D rect;
 		//Geral
 		public static List<Objeto> objetos = new List<Objeto>();
-		public static List<Objeto> objetosToDestroy = new List<Objeto>();
+		public static List<Objeto> objetos_deactived = new List<Objeto>();
 		public static Rectangle cameraBoundaries = new Rectangle(0, 0, 0, 0);
 		public static Vector2 cameraPosition = new Vector2(0, 0);
 		public static int TelaWidth = 640, TelaHeight = 480;
@@ -95,7 +95,7 @@ namespace baseProject
 			setFps(gameTime);
 						
 			//test criar instancia:
-			if(GameBase.mouse.RightButton == ButtonState.Pressed)
+			if(Objeto.mouseRightCheck())
 			{
 				Man man = new Man("new",mouse.X,mouse.Y,Spr_down,0.1,0.1);//GameBase.mouse.X,GameBase.mouse.Y,GameBase.Spr_up);
 			}
@@ -115,7 +115,7 @@ namespace baseProject
 			graphics.GraphicsDevice.Clear (Color.CornflowerBlue);
 		
 			//TODO: Add your drawing code here
-			spriteBatch.Begin();//SpriteSortMode.FrontToBack
+			spriteBatch.Begin(SpriteSortMode.FrontToBack);//
 				DrawAll(spriteBatch);
 				
 				spriteBatch.DrawString(GameBase.FontMain, "FPS:"+GameBase.fps+" rate:"+frameCounter+" Instancias:"+objetos.Count, new Vector2(10, 10), Color.Black);
@@ -149,23 +149,22 @@ namespace baseProject
 		public static void UpdateAll()
 	    {
 	        //Call objetos Update
-	        try{ //prevenir erro por criação de instâncias, enquanto a lista é percorrida
-		        foreach(Objeto current in objetos)
-		        {
-		            current.Step();
-		        }
-	        }
-	        catch{
-	        	
-	        }
-	        
-	        //Destroy objetos listed to be destroyed
-	        for(int i=0; i<objetosToDestroy.Count; i++)
-	        {
-	        	objetos.Remove(objetos[i]);
-	            objetos.Remove(objetosToDestroy[i]);
-	            i--;
-	        }
+	       	for(int i=0;i<objetos.Count;i++){
+	       		Objeto current = objetos[i];
+	       		if (current.toDestroy==true){
+	        		objetos.Remove(current);
+	        		i--;
+	        	}
+	        	else
+	        	if (current.Active==false){
+	        		objetos_deactived.Add(current);
+					objetos.Remove(current);
+					i--;
+	        	}
+	        	else
+	        	current.Step();
+		     } 	        	        
+	        	        
 	    }
 		
 		public static void DrawAll(SpriteBatch s)
@@ -174,8 +173,8 @@ namespace baseProject
 	        Amber.cameraBoundaries = new Rectangle(Amber.cameraBoundaries.X, Amber.cameraBoundaries.Y, Amber.cameraWidth, Amber.cameraHeight);
 	       */
 	        foreach(Objeto current in objetos)
-	        {
-	            current.Draw(s);
+	        {	        	
+	            	current.Draw(s);	        	
 	        }
 	    }
 		

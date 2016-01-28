@@ -33,15 +33,35 @@ namespace baseProject
 		public float layer = 0;
 		public Color color = Color.Black;
 		public Rectangle boxCollision = new Rectangle(0,0,0,0);
+		private Boolean active = true;
+		
 		
 		public Objeto(){
-			GameBase.objetos.Add(this);			
-			//Create();
+			GameBase.objetos.Add(this);						
 		}
 					
 		
 		public void setIdentify(String identify){
 			this.identify = identify;
+		}
+		
+		/*
+		private Vector2 _rotatePoint(Vector2 PointToRotate,Vector2 OriginOfRotation,float ThetaInRads)
+		{
+		    Vector2 RotationVector = PointToRotate - OriginOfRotation;
+		    Vector2 RotatedVector = new Vector2()
+		    {
+		        X = (float)(RotationVector.X * Math.Cos(ThetaInRads) - RotationVector.Y * Math.Sin(ThetaInRads)),
+		        Y = (float)(RotationVector.X * Math.Sin(ThetaInRads) + RotationVector.Y * Math.Cos(ThetaInRads))
+		    };
+		
+		    return OriginOfRotation + RotatedVector;
+		}
+		*/
+		public void setRotateBox(){
+			//float nx = x * (float)Math.Cos(angle/360) - y * (float)Math.Sin(angle/360);
+			//float ny = x * (float)Math.Sin(angle/360) + y * (float)Math.Cos(angle/360);
+			//boxCollision = new Rectangle(Convert.ToInt32(nx),Convert.ToInt32(ny),Convert.ToInt32(sprite.Width*xscale),Convert.ToInt32(sprite.Height*yscale));
 		}
 		
 		 //======== Method templates
@@ -52,6 +72,7 @@ namespace baseProject
 	    	//atualiza a box do player				
 			if (sprite!=null){
 				boxCollision = new Rectangle(Convert.ToInt32(x-(sprite.origin.X)*xscale),Convert.ToInt32(y-(sprite.origin.Y)*yscale),Convert.ToInt16(sprite.Width*xscale),Convert.ToInt16(sprite.Height*yscale));
+				setRotateBox();
 				sprite.Step();
 			}
 	    	
@@ -59,16 +80,46 @@ namespace baseProject
 	   
 	    public abstract void Draw(SpriteBatch s);
 	   
+	    public Boolean toDestroy=false;
 	    public virtual void Destroy()
 	    {
-	       /* if (!toDestroy)
-	        {
-	            toDestroy = true;
-	            objetosDestroy.Add(this);
-	        }*/
+	        toDestroy=true;
 	    }
 	   
 	    //// Functions
+	    public bool Active {
+			get { return active; }
+		}
+		
+	    /*
+	    public void Activate(Objeto obj){	    	
+	    	if (GameBase.objetos_deactived.Remove(obj)){
+	    		GameBase.objetos.Add(obj);
+	    		obj.active=true;
+	    	}			
+	    }
+	    */
+	   public void Activate(){	
+			//Objeto o = this;	   	
+	    	if (GameBase.objetos_deactived.Remove(this)){
+	    		GameBase.objetos.Add(this);
+	    		this.active=true;
+	    	}			
+	    }
+	   
+	    public void Deactivate(){
+	    	active=false;	    	
+	    }
+	    
+	    public void ActiveAll(){
+			//for corrige o erro de remoção no foreach:
+			for(int i=0;i<GameBase.objetos_deactived.Count;i++){
+	       		Objeto current = GameBase.objetos_deactived[i];
+	       		GameBase.objetos.Add(current);
+				GameBase.objetos_deactived.Remove(current);
+				current.active=true;				
+	      	} 
+		}	    
 	    
 	   //Timer
 	    public Boolean timerOk(int timer){
@@ -77,7 +128,29 @@ namespace baseProject
 	    	}
 	    	else return false;
 	    }
-	    
+	   
+	   //Control	   
+	   public static Boolean keyboardCheck(Keys key){
+	   	if (GameBase.framesElapsed % 5 == 0 && Keyboard.GetState().IsKeyDown(key)){
+	    		return true;
+	    	}
+	    	else return false;
+	    }
+	   
+	   public static Boolean mouseLeftCheck(){
+	   		if (GameBase.framesElapsed % 5 == 0 && GameBase.mouse.LeftButton == ButtonState.Pressed){
+	    		return true;
+	    	}
+	    	else return false;
+	    }
+	   
+	   public static Boolean mouseRightCheck(){
+	   		if (GameBase.framesElapsed % 5 == 0 && GameBase.mouse.RightButton == ButtonState.Pressed){
+	    		return true;
+	    	}
+	    	else return false;
+	    }
+	   
 	   //Collision
 	   public Boolean CollisionOk(String identify2){
 	   		Boolean col=false;
@@ -104,7 +177,7 @@ namespace baseProject
 	    
 	   //Click
 	   public Boolean ClickOk(){
-	  		if(GameBase.mouse.LeftButton == ButtonState.Pressed)
+	   		if(mouseLeftCheck())
 			{
 	  			Rectangle mbox = new Rectangle(GameBase.mouse.X,GameBase.mouse.Y,1,1);
 	  			return mbox.Intersects(boxCollision);
