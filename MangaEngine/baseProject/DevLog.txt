@@ -11,12 +11,20 @@ ok	timer
 ok	colisão box
 ok	click
 ok	criar instância
-	destruir instância
-	ativar/desativar instância (step,timer,draw)
-		
+	colisão com angle
+*girar a box de colisão do player de acordo com o angle
+ok	destruir instância
+ok	ativar/desativar instância
+	press button/click 
+*usar um timer para executar a ação apenas uma vez no check	
+*melhorar o time de press
 	backgrounds
 	tiles
 	câmera move
 	câmera seguir
 	rooms
+	gui
 	física
+	partículas
+	áudio
+	joystick
