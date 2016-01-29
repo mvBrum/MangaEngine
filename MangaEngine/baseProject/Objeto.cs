@@ -79,7 +79,7 @@ namespace baseProject
 	    	//atualiza a box do player				
 			if (sprite!=null){
 	    		//boxCollision = new Rectangle(Convert.ToInt32(x*xscale),Convert.ToInt32(y*yscale),Convert.ToInt32(sprite.width*xscale),Convert.ToInt32(sprite.height*yscale));
-	    		boxCollision = new Rectangle(Convert.ToInt32(x-(sprite.origin.X)*xscale),Convert.ToInt32(y-(sprite.origin.Y)*yscale),Convert.ToInt32(sprite.width*xscale),Convert.ToInt32(sprite.height*yscale));
+	    		boxCollision = new Rectangle(Convert.ToInt32(x-(sprite.origin.X)*xscale),Convert.ToInt32(y-(sprite.origin.Y)*yscale),Convert.ToInt32(sprite.width()*xscale),Convert.ToInt32(sprite.height()*yscale));
 				//boxCollision = new Rectangle(Convert.ToInt32(x-(sprite.origin.X-(sprite.WidthOrig-sprite.width))*xscale),Convert.ToInt32(y-(sprite.origin.Y-(sprite.HeightOrig-sprite.height))*yscale),Convert.ToInt32(sprite.width*xscale),Convert.ToInt32(sprite.height*yscale));
 				setRotateBox();
 				sprite.Step();
@@ -194,15 +194,26 @@ namespace baseProject
 	   		Boolean col = obj1.boxCollision.Intersects(obj2.boxCollision);
 	   		if (col==true){
 	   			if (obj1.precise || obj2.precise){
-	        		int ind = (int)Math.Floor(obj1.sprite.frameCurrent);//arredondando o índice	
-	        		col = IntersectsPixel2(obj1.boxCollision,obj1.sprite.textureDatas[ind],obj2.boxCollision,obj2.sprite.textureDatas[ind],obj1.precise,obj2.precise);	   			
+	        		//add espaço vazio do bbox no rect:
+        			Rectangle rect1 = obj1.boxCollision;
+        			rect1.X-=obj1.sprite.box[obj1.sprite.ImageIndex].X;
+        			rect1.Y-=obj1.sprite.box[obj1.sprite.ImageIndex].Y;
+        			rect1.Width=obj1.sprite.WidthOrig;
+        			rect1.Height=obj1.sprite.HeightOrig;
+        			Rectangle rect2 = obj2.boxCollision;
+        			rect2.X-=obj2.sprite.box[obj2.sprite.ImageIndex].X;
+        			rect2.Y-=obj2.sprite.box[obj2.sprite.ImageIndex].Y;
+        			rect2.Width=obj2.sprite.WidthOrig;
+        			rect2.Height=obj2.sprite.HeightOrig;
+        			//testar colisão precisa com as novas box de colisão com bbox:
+	        		col = IntersectsPixel2(rect1,obj1.sprite.textureDatas[sprite.ImageIndex],rect2,obj2.sprite.textureDatas[sprite.ImageIndex],obj1.precise,obj2.precise);	   			
 	   			}				
         	}
 	   		return col;
 	   }
 	   
-	   public bool IntersectsPixel2(Rectangle rect1, Color[,] data1,
-                                    Rectangle rect2, Color[,] data2,Boolean precise1,Boolean precise2)
+	   public bool IntersectsPixel2(Rectangle rect1, Color[] data1,
+                                    Rectangle rect2, Color[] data2,Boolean precise1,Boolean precise2)
         {
 	   	
 	   	//rect1.X = Convert.ToInt32(rect1.X*(1/xscale));
@@ -220,15 +231,18 @@ namespace baseProject
         int bottom = Math.Min(rect1.Bottom, rect2.Bottom);
         int left = Math.Max(rect1.Left, rect2.Left);
         int right = Math.Min(rect1.Right, rect2.Right);
-		
+		        
+        
         for (int y = top; y < bottom; y++)
         {
             for (int x = left; x < right; x++)
             {
-                Color color1 = data1[(x - rect1.Left) ,
-                                         (y - rect1.Top) ];//* rect1.Width
-                Color color2 = data2[(x - rect2.Left) ,
-                                         (y - rect2.Top)];// * rect2.Width
+            	int a=(x - rect1.Left) + (y - rect1.Top)* rect1.Width; //data1.Length;
+            	int b=(x - rect2.Left) + (y - rect2.Top)* rect2.Width; //data2.Length;
+            	Color color1 = data1[a];//size: box 103,123; bb 59,61
+                                      //149,177;151,239 
+                Color color2 = data2[b];
+                                       //49,177; 49,177
 
             	int cor1,cor2;
             	if (precise1==true) {cor1=0;} else cor1=-1;

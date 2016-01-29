@@ -196,11 +196,11 @@ namespace baseProject
 		
 		public static void LoadResources(ContentManager content) //load resources
 	    {
-			/*
+			
 			//Spr_man = new Sprite(content.Load<Texture2D>("run/1"));						
-			Spr_right = new Sprite(content,"run/right/1","run/right/2","run/right/3","run/right/2");
+			//Spr_right = new Sprite(content,true,"run/right/1","run/right/2","run/right/3","run/right/2");
 			//Spr_right.setOrigin(Sprite.Bounds.CENTER);"x","x","x","x");//
-			Spr_left = new Sprite(content,"run/left/1","run/left/2","run/left/3","run/left/2");
+			/*Spr_left = new Sprite(content,"run/left/1","run/left/2","run/left/3","run/left/2");
 			//Spr_left.setOrigin(Sprite.Bounds.CENTER);"x","x","x","x");//
 			Spr_up = new Sprite(content,"run/up/1","run/up/2","run/up/3","run/up/2");
 			//Spr_up.setOrigin(Sprite.Bounds.CENTER);"x","x","x","x");//			
@@ -209,9 +209,9 @@ namespace baseProject
 			*/
 						
 			Spr_right = new Sprite(content,true,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
-			Spr_left = new Sprite(content,true,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
+			Spr_left = new Sprite(content,true,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");			
 			Spr_up = new Sprite(content,true,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
-			Spr_down = new Sprite(content,false,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
+			Spr_down = new Sprite(content,true,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
 
 			FontMain = content.Load<SpriteFont>("corbel");
 	    }
@@ -239,6 +239,7 @@ namespace baseProject
 			
 			jose = new Man("Jose",300,300,Spr_down,1,1);
 			jose.solid = true;
+			jose.precise=true;
 			//jose.xscale = 1;
 			//jose.yscale = 1;
 			//jose.sprite = Spr_down;			
@@ -251,7 +252,7 @@ namespace baseProject
 			
 			maria = new Man("Maria",500,300,Spr_down,1,1);
 			maria.solid=true;
-			maria.precise=true;
+			//maria.precise=true;
 	    }
 		
 		

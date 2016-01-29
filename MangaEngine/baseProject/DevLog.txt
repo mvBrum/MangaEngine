@@ -38,9 +38,17 @@ ok	colisão por pixel
 
 ok	boundingbox automático
 -guardar dist top,left ao fazer o autobounding para corrigir a box dps.
-*bug na colisão por pixel
-
-
+-corrigido: bug na colisão por pixel
+-tirei o width,height da sprite, calculando eles por método() agora.
+ -caso as subimages tenham tamanhos diferentes o width,height estará correto ao checar a colisão.
+ 
+ box x box ok
+ box x precise ok
+ precise x precise x
+ bound x box ok
+ bound x bound box ok
+ bound precise x bound precise x
+ 
 	Melhorias
 Dividir a Classe Objeto e seus membros em outras classes(Interfaces), para otimizar o desempenho.
 Ex: 

@@ -20,13 +20,12 @@ namespace baseProject
 	public class Sprite
 	{
 		public Texture2D[] frames;
-		public Color[][,] textureDatas;
+		public Color[][] textureDatas;
 		public int frameCount = 0;
 		public double frameCurrent = 0;
 		public double frameSpeed = 1;
+		private int imageIndex = 0;	
 		public Vector2 origin;
-		public int width;
-		public int height;
 		private int widthOrig;
 		private int heightOrig;		
 		public Rectangle[] box;
@@ -50,11 +49,22 @@ namespace baseProject
 			get { return heightOrig; }
 		}
 		
+		public int ImageIndex {
+			get { return imageIndex; }
+		}
+		
+		public int width() {
+			return box[ImageIndex].Width;
+		}
+		public int height() {
+			return box[ImageIndex].Height;
+		}
+		
 		//criar com lista de arquivos
 		public Sprite(ContentManager content,Boolean autoboundingbox,params String[] files) 
 		{
 			this.frames = new Texture2D[files.Length];
-			this.textureDatas = new Color[files.Length][,];
+			this.textureDatas = new Color[files.Length][];
 			this.box = new Rectangle[files.Length];
 			
 			for (int i = 0; i < files.Length; i++)
@@ -67,26 +77,22 @@ namespace baseProject
 			//guarda o tamanho da 1ªimagem:
 			this.widthOrig = frames[0].Width;//box[0].Width;//
 			this.heightOrig = frames[0].Height;//box[0].Height;//
-			this.width = box[0].Width;//frames[0].Width;//
-			this.height = box[0].Height;//frames[0].Height;//
 			
 			setOrigin(Sprite.Bounds.CENTERDOWN);//GameBase.fps=0;
 			//setOrigin(200,200);
 		}
 		
 		public void Draw(SpriteBatch s,int x,int y,double xscale,double yscale,float angle,float depth,Color color){
-		    	
-			
-			
+
 			//draw sprite
-	    	int ind = (int)Math.Floor(frameCurrent);//arredondando o índice	    			    	
-	    	//Rectangle box = new Rectangle(Convert.ToInt32(x-(widthOrig-width)),Convert.ToInt32(y-(heightOrig-height)),Convert.ToInt32(widthOrig*xscale),Convert.ToInt32(heightOrig*yscale));//Convert.ToInt32(x-origin.X),Convert.ToInt32(y-origin.Y)
-	    	//Rectangle box = new Rectangle((int)(x-(widthOrig-width)/2*xscale)-1,(int)(y-(HeightOrig-height)/2*xscale)-1,Convert.ToInt32(widthOrig*xscale+1),Convert.ToInt32(heightOrig*yscale+1));//Convert.ToInt32(x-origin.X),Convert.ToInt32(y-origin.Y)
-	    	Rectangle boxdraw = new Rectangle((int)(x-(box[ind].X)*xscale),(int)(y-(box[ind].Y)*xscale),Convert.ToInt32(widthOrig*xscale),Convert.ToInt32(heightOrig*yscale));//Convert.ToInt32(x-origin.X),Convert.ToInt32(y-origin.Y)
-	    	s.Draw(frames[ind],boxdraw,null,color,angle/360,origin,SpriteEffects.None,depth);
+	    	   			    	
+	    	//Rectangle box = new Rectangle(Convert.ToInt32(x-(widthOrig-width())),Convert.ToInt32(y-(heightOrig-height)),Convert.ToInt32(widthOrig*xscale),Convert.ToInt32(heightOrig*yscale));//Convert.ToInt32(x-origin.X),Convert.ToInt32(y-origin.Y)
+	    	//Rectangle box = new Rectangle((int)(x-(widthOrig-width())/2*xscale)-1,(int)(y-(HeightOrig-height())/2*xscale)-1,Convert.ToInt32(widthOrig*xscale+1),Convert.ToInt32(heightOrig*yscale+1));//Convert.ToInt32(x-origin.X),Convert.ToInt32(y-origin.Y)
+	    	Rectangle boxdraw = new Rectangle((int)(x-(box[imageIndex].X)*xscale),(int)(y-(box[imageIndex].Y)*xscale),Convert.ToInt32(widthOrig*xscale),Convert.ToInt32(heightOrig*yscale));//Convert.ToInt32(x-origin.X),Convert.ToInt32(y-origin.Y)
+	    	s.Draw(frames[imageIndex],boxdraw,null,color,angle/360,origin,SpriteEffects.None,depth);
 	    	//s.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList,0,10);	    	
 	    	/*
- 			if (box[ind].X>0){
+ 			if (box[imageIndex].X>0){
 				//nada
 			}*/
 		}
@@ -99,7 +105,11 @@ namespace baseProject
 				if (frameCurrent>=frameCount) {frameCurrent=0;}//resetar extouro
 			}			
 			else 
-			frameCurrent += 0;			
+			frameCurrent += 0;	
+			
+			//arredondando o índice:	
+			imageIndex = (int)Math.Floor(frameCurrent); 	
+			 
 		}
 		
 		public void setOrigin(Bounds bound){
@@ -108,26 +118,26 @@ namespace baseProject
 					origin = new Vector2(0,0);					
 				break;
 				case Bounds.LEFTDOWN:
-					origin = new Vector2(0,height);						
+					origin = new Vector2(0,height());						
 				break;
 				case Bounds.RIGHTUP:
-					origin = new Vector2(width,0);						
+					origin = new Vector2(width(),0);						
 				break;
 				case Bounds.RIGHTDOWN:
-					origin = new Vector2(width,height);						
+					origin = new Vector2(width(),height());						
 				break;
 				case Bounds.CENTER:
-					origin = new Vector2(width/2,height/2);						
+					origin = new Vector2(width()/2,height()/2);						
 				break;
 				case Bounds.CENTERUP:
-					origin = new Vector2(width/2,0);						
+					origin = new Vector2(width()/2,0);						
 				break;
 				case Bounds.CENTERDOWN:
-					origin = new Vector2(width/2,height);						
+					origin = new Vector2(width()/2,height());						
 				break;
 			
 			}
-			/*origin.X += (widthOrig-width)/2;
+			/*origin.X += (widthOrig-width())/2;
 			origin.Y += (heightOrig-height)/2;*/
 		}
 		
@@ -137,18 +147,17 @@ namespace baseProject
 		
 		private void setTextureData(int ind,Boolean autoboundingbox){			
 			//inicializa a array da subimage:
-			textureDatas[ind] = new Color[frames[ind].Width,frames[ind].Height];
+			textureDatas[ind] = new Color[frames[ind].Width*frames[ind].Height];
+			//tamanho da img: textureDatas[ind] = new Color[box[ind] frames[ind].Width*frames[ind].Height];
 			//preencher a array com um bi de cores da subimage:
-			//textureDatas[ind] = TextureTo2DArray(frames[ind]);
-				//frames[ind].GetData(textureDatas[ind]);
+			textureDatas[ind] = TextureToArray(frames[ind]);
 			//guardar a box reduzida da subimage:
 			if (autoboundingbox){
-				textureDatas[ind] = TextureTo2DArray(frames[ind]);
 				box[ind] = GetSmallestRectangleFromTexture(frames[ind],textureDatas[ind]);								
-				textureDatas[ind] = TextureTo2DArrayInBoundBoxing(frames[ind],box[ind]);
+				//otimizar, reduzindo boundingbox
+				//textureDatas[ind] = TextureToArrayInBoundBoxing(frames[ind],box[ind]);
 			}
 			else {
-				textureDatas[ind] = TextureTo2DArray(frames[ind]);
 				box[ind] = new Rectangle(0,0,frames[0].Width,frames[0].Height);
 			}
 			
@@ -157,7 +166,7 @@ namespace baseProject
 	
 
     //Get smallest rectangle from Texture, cased on color
-    public Rectangle GetSmallestRectangleFromTexture(Texture2D Texture,Color[,] Colors)
+    public Rectangle GetSmallestRectangleFromTexture(Texture2D Texture,Color[] Colors)
     {
         //Create our index of sprite frames
         //Color[,] Colors = TextureTo2DArray(Texture);
@@ -171,7 +180,7 @@ namespace baseProject
             for (int b = 0; b < Texture.Height; b++)
             {
                 //If we find a non transparent pixel, update bounds if required
-                if (Colors[a, b].A != 0)
+                if (Colors[a+b*Texture.Width].A != 0)
                 {
                 	if (x1 > a) {x1 = a;}
                 	if (x2 < a) x2 = a;
@@ -186,23 +195,16 @@ namespace baseProject
     }
  
     //convert texture to 2d array
-    private static Color[,] TextureTo2DArray(Texture2D texture)
+    private static Color[] TextureToArray(Texture2D texture)
     {
         //Texture.GetData returns a 1D array
         Color[] colors1D = new Color[texture.Width * texture.Height];
         texture.GetData(colors1D);
- 
-        //convert the 1D array to 2D for easier processing
-        Color[,] colors2D = new Color[texture.Width, texture.Height];
-        for (int x = 0; x < texture.Width; x++)
-            for (int y = 0; y < texture.Height; y++)
-                colors2D[x, y] = colors1D[x + y * texture.Width];
- 
-        	return colors2D;
+        return colors1D;
    	 }
     
     //convert texture to 2d array dentro de boundingbox
-    private static Color[,] TextureTo2DArrayInBoundBoxing(Texture2D texture,Rectangle rect)
+    private static Color[] TextureToArrayInBoundBoxing(Texture2D texture,Rectangle rect)
     {
         //Texture.GetData returns a 1D array
         Color[] colors1D = new Color[texture.Width * texture.Height];
@@ -213,13 +215,13 @@ namespace baseProject
         if (rect.X+rect.Width>texture.Width){rect.Width=texture.Width-rect.X;}
         if (rect.Y+rect.Height>texture.Height){rect.Height=texture.Height-rect.Y;}
         
-        //convert the 1D array to 2D for easier processing
-        Color[,] colors2D = new Color[rect.Width, rect.Height];
-        for (int x = 0; x < rect.Width; x++)
-            for (int y =  0; y <  rect.Height; y++)
-                colors2D[x, y] = colors1D[x + y * rect.Width];
+        //Retira apenas a array dentro do boundingbox:
+        Color[] colorsInBoundbox = new Color[rect.Width*rect.Height];
+       	for (int x = 0; x < rect.Width; x++)
+       		for (int y =  0; y <  rect.Height; y++)       	            
+                colorsInBoundbox[x + y * rect.Width] = colors1D[x + y * rect.Width];
  
-        	return colors2D;
+        	return colorsInBoundbox;
    	 }
     
     
