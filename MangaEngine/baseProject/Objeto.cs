@@ -36,18 +36,14 @@ namespace baseProject
 		public Color color = Color.Black;
 		public Rectangle boxCollision = new Rectangle(0,0,0,0);
 		private Boolean active = true;
-<<<<<<< HEAD
+
 		public Boolean solid = false;
 		public Boolean precise = false;
 		
-		public Objeto(){
-			GameBase.objetos.Add(this);							
-=======
 		
 		
 		public Objeto(){
 			GameBase.objetos.Add(this);						
->>>>>>> a92d0a59e8d69702f04ce63494fdfc48e0b098e3
 		}
 					
 		
@@ -82,7 +78,9 @@ namespace baseProject
 	    	
 	    	//atualiza a box do player				
 			if (sprite!=null){
-				boxCollision = new Rectangle(Convert.ToInt32(x-(sprite.origin.X)*xscale),Convert.ToInt32(y-(sprite.origin.Y)*yscale),Convert.ToInt16(sprite.Width*xscale),Convert.ToInt16(sprite.Height*yscale));
+	    		boxCollision = new Rectangle(Convert.ToInt32(x*xscale),Convert.ToInt32(y*yscale),Convert.ToInt32(sprite.width*xscale),Convert.ToInt32(sprite.height*yscale));
+	    		//boxCollision = new Rectangle(Convert.ToInt32(x-(sprite.origin.X)*xscale),Convert.ToInt32(y-(sprite.origin.Y)*yscale),Convert.ToInt32(sprite.width*xscale),Convert.ToInt32(sprite.height*yscale));
+				//boxCollision = new Rectangle(Convert.ToInt32(x-(sprite.origin.X-(sprite.WidthOrig-sprite.width))*xscale),Convert.ToInt32(y-(sprite.origin.Y-(sprite.HeightOrig-sprite.height))*yscale),Convert.ToInt32(sprite.width*xscale),Convert.ToInt32(sprite.height*yscale));
 				setRotateBox();
 				sprite.Step();
 			}
@@ -203,8 +201,8 @@ namespace baseProject
 	   		return col;
 	   }
 	   
-	   public bool IntersectsPixel2(Rectangle rect1, Color[] data1,
-                                    Rectangle rect2, Color[] data2,Boolean precise1,Boolean precise2)
+	   public bool IntersectsPixel2(Rectangle rect1, Color[,] data1,
+                                    Rectangle rect2, Color[,] data2,Boolean precise1,Boolean precise2)
         {
 	   	
 	   	//rect1.X = Convert.ToInt32(rect1.X*(1/xscale));
@@ -227,9 +225,9 @@ namespace baseProject
         {
             for (int x = left; x < right; x++)
             {
-                Color color1 = data1[(x - rect1.Left) +
+                Color color1 = data1[(x - rect1.Left) ,
                                          (y - rect1.Top) * rect1.Width];
-                Color color2 = data2[(x - rect2.Left) +
+                Color color2 = data2[(x - rect2.Left) ,
                                          (y - rect2.Top) * rect2.Width];
 
             	int cor1,cor2;
@@ -330,7 +328,7 @@ namespace baseProject
 			y = Convert.ToInt32(pos.Y);
 		}
 	    
-	    public void DrawRectangle(Rectangle coords, Color color,SpriteBatch s)
+	    public static void DrawRectangle(Rectangle coords, Color color,SpriteBatch s)
 		{	    	
 		    s.Draw(GameBase.rect, coords, color);
 		}

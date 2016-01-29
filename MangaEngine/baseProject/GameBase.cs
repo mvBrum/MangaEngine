@@ -251,7 +251,7 @@ namespace baseProject
 			
 			maria = new Man("Maria",500,300,Spr_down,1,1);
 			maria.solid=true;
-			maria.precise=true;
+			//maria.precise=true;
 	    }
 		
 		

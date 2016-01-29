@@ -20,15 +20,17 @@ namespace baseProject
 	public class Sprite
 	{
 		public Texture2D[] frames;
-		public Color[][] textureDatas;
+		public Color[][,] textureDatas;
 		public int frameCount = 0;
 		public double frameCurrent = 0;
 		public double frameSpeed = 1;
 		public Vector2 origin;
-		public int Width;
-		public int Height;		
-		//public Color[] textureData;
-		
+		public int width;
+		public int height;
+		private int widthOrig;
+		private int heightOrig;		
+		public Rectangle[] box;
+				
 		public enum Bounds{ 
 			LEFTUP = 0,
 			LEFTDOWN = 1,
@@ -39,22 +41,37 @@ namespace baseProject
 			CENTERDOWN = 6			
 		}
 		
+		public int WidthOrig {
+			get { return widthOrig; }
+		}
+		
+		
+		public int HeightOrig {
+			get { return heightOrig; }
+		}
+		
 		//criar com lista de arquivos
 		public Sprite(ContentManager content,params String[] files) 
 		{
 			this.frames = new Texture2D[files.Length];
-			this.textureDatas = new Color[files.Length][];
+			this.textureDatas = new Color[files.Length][,];
+			this.box = new Rectangle[files.Length];
+			
 			for (int i = 0; i < files.Length; i++)
 	        {
 				this.frames[i] = content.Load<Texture2D>(files[i]);
 				setTextureData(i);
 	        }
+			
 			this.frameCount = frames.Length;
-			this.Width = frames[0].Width;
-			this.Height = frames[0].Height;
+			//guarda o tamanho da 1ªimagem:
+			this.widthOrig = frames[0].Width;//box[0].Width;//
+			this.heightOrig = frames[0].Height;//box[0].Height;//
+			this.width = box[0].Width;//frames[0].Width;//
+			this.height = box[0].Height;//frames[0].Height;//
 			
 			
-			setOrigin(Sprite.Bounds.CENTERDOWN);//GameBase.fps=0;
+			setOrigin(Sprite.Bounds.LEFTUP);//GameBase.fps=0;
 			//setOrigin(200,200);
 		}
 		
@@ -62,7 +79,8 @@ namespace baseProject
 		    	
 			//draw sprite
 	    	int ind = (int)Math.Floor(frameCurrent);//arredondando o índice	    			    	
-	    	Rectangle box = new Rectangle(x,y,Convert.ToInt16(Width*xscale),Convert.ToInt16(Height*yscale));    	 		    	
+	    	//Rectangle box = new Rectangle(Convert.ToInt32(x-(widthOrig-width)),Convert.ToInt32(y-(heightOrig-height)),Convert.ToInt32(widthOrig*xscale),Convert.ToInt32(heightOrig*yscale));//Convert.ToInt32(x-origin.X),Convert.ToInt32(y-origin.Y)
+	    	Rectangle box = new Rectangle(x,y,Convert.ToInt32(widthOrig*xscale),Convert.ToInt32(heightOrig*yscale));//Convert.ToInt32(x-origin.X),Convert.ToInt32(y-origin.Y)
 	    	s.Draw(frames[ind],box,null,color,angle/360,origin,SpriteEffects.None,depth);
 	    	//s.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList,0,10);	    	
 	    	
@@ -85,43 +103,51 @@ namespace baseProject
 					origin = new Vector2(0,0);					
 				break;
 				case Bounds.LEFTDOWN:
-					origin = new Vector2(0,Height);						
+					origin = new Vector2(0,height);						
 				break;
 				case Bounds.RIGHTUP:
-					origin = new Vector2(Width,0);						
+					origin = new Vector2(width,0);						
 				break;
 				case Bounds.RIGHTDOWN:
-					origin = new Vector2(Width,Height);						
+					origin = new Vector2(width,height);						
 				break;
 				case Bounds.CENTER:
-					origin = new Vector2(Width/2,Height/2);						
+					origin = new Vector2(width/2,height/2);						
 				break;
 				case Bounds.CENTERUP:
-					origin = new Vector2(Width/2,0);						
+					origin = new Vector2(width/2,0);						
 				break;
 				case Bounds.CENTERDOWN:
-					origin = new Vector2(Width/2,Height);						
+					origin = new Vector2(width/2,height);						
 				break;
 			
 			}
+			origin.X += (widthOrig-width)/2;
+			origin.Y += (heightOrig-height)/2;
 		}
 		
 		public void setOrigin(int xoffset,int yoffset){
 			origin = new Vector2(xoffset,yoffset);			
 		}
 		
-		private void setTextureData(int ind){
-			textureDatas[ind] = new Color[frames[ind].Width * frames[ind].Height];
-			frames[ind].GetData(textureDatas[ind]);
+		private void setTextureData(int ind){			
+			//inicializa a array da subimage:
+			textureDatas[ind] = new Color[frames[ind].Width,frames[ind].Height];
+			//preencher a array com um bi de cores da subimage:
+			textureDatas[ind] = TextureTo2DArray(frames[ind]);
+				//frames[ind].GetData(textureDatas[ind]);
+			//guardar a box reduzida da subimage:
+			box[ind] = GetSmallestRectangleFromTexture(frames[ind],textureDatas[ind]);
+			
 		}
 		
 	
 
     //Get smallest rectangle from Texture, cased on color
-    public static Rectangle GetSmallestRectangleFromTexture(Texture2D Texture)
+    public static Rectangle GetSmallestRectangleFromTexture(Texture2D Texture,Color[,] Colors)
     {
         //Create our index of sprite frames
-        Color[,] Colors = TextureTo2DArray(Texture);
+        //Color[,] Colors = TextureTo2DArray(Texture);
  
         //determine the min/max bounds
         int x1 = 9999999, y1 = 9999999;
