@@ -134,6 +134,10 @@ namespace baseProject.PacMan
 				Deactivate();
 				Console.WriteLine("Desative: "+name);
 			}
+<<<<<<< HEAD
+=======
+			
+>>>>>>> a92d0a59e8d69702f04ce63494fdfc48e0b098e3
 			
 			
 			}
@@ -143,6 +147,14 @@ namespace baseProject.PacMan
 				Console.WriteLine("Ok: "+name);				
 			}
 			
+<<<<<<< HEAD
+=======
+			if (keyboardCheck(Keys.O)){// Keyboard.GetState().IsKeyDown(Keys.Delete)) {
+				ok=true;	
+				Console.WriteLine("Ok: "+name);				
+			}
+			
+>>>>>>> a92d0a59e8d69702f04ce63494fdfc48e0b098e3
 			if (keyboardCheck(Keys.A)){//Keyboard.GetState().IsKeyDown(Keys.A)) {				
 				GameBase.maria.Activate();
 				Console.WriteLine("Ative: "+name);				

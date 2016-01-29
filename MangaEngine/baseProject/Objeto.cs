@@ -36,11 +36,18 @@ namespace baseProject
 		public Color color = Color.Black;
 		public Rectangle boxCollision = new Rectangle(0,0,0,0);
 		private Boolean active = true;
+<<<<<<< HEAD
 		public Boolean solid = false;
 		public Boolean precise = false;
 		
 		public Objeto(){
 			GameBase.objetos.Add(this);							
+=======
+		
+		
+		public Objeto(){
+			GameBase.objetos.Add(this);						
+>>>>>>> a92d0a59e8d69702f04ce63494fdfc48e0b098e3
 		}
 					
 		
