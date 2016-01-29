@@ -20,13 +20,14 @@ namespace baseProject
 	public class Sprite
 	{
 		public Texture2D[] frames;
+		public Color[][] textureDatas;
 		public int frameCount = 0;
 		public double frameCurrent = 0;
 		public double frameSpeed = 1;
 		public Vector2 origin;
 		public int Width;
 		public int Height;		
-		
+		//public Color[] textureData;
 		
 		public enum Bounds{ 
 			LEFTUP = 0,
@@ -38,28 +39,22 @@ namespace baseProject
 			CENTERDOWN = 6			
 		}
 		
-		//criar com lista de textures
-		public Sprite(params Texture2D[] frames) 
-		{
-			this.frames = frames;	
-			this.frameCount = frames.Length;
-			this.Width = frames[0].Width;
-			this.Height = frames[0].Height;
-		}
-		
 		//criar com lista de arquivos
 		public Sprite(ContentManager content,params String[] files) 
 		{
 			this.frames = new Texture2D[files.Length];
+			this.textureDatas = new Color[files.Length][];
 			for (int i = 0; i < files.Length; i++)
 	        {
 				this.frames[i] = content.Load<Texture2D>(files[i]);
+				setTextureData(i);
 	        }
 			this.frameCount = frames.Length;
 			this.Width = frames[0].Width;
 			this.Height = frames[0].Height;
 			
-			setOrigin(Sprite.Bounds.CENTERDOWN);GameBase.fps=0;
+			
+			setOrigin(Sprite.Bounds.CENTERDOWN);//GameBase.fps=0;
 			//setOrigin(200,200);
 		}
 		
@@ -114,32 +109,62 @@ namespace baseProject
 		public void setOrigin(int xoffset,int yoffset){
 			origin = new Vector2(xoffset,yoffset);			
 		}
-	}
-	
-	
-	
-	
-	/*
-	 //Sprisheet
-	public class Sprite
-	{
-		public Texture2D texture;
-		public int frameCount;
-		public float frameCurrent = 0;
-		private int framesHor;
-		private int frameVer;
-		public Vector2 origin;
 		
-		
-		public Sprite(Texture2D texture, int framesHor,int framesVer, Vector2 origin)
-		{
-			this.texture = texture;
-			this.frameCount = frameCount;
-			this.frameWidth = texture.Width/frameCount;
-			
-			this.origin = origin;
+		private void setTextureData(int ind){
+			textureDatas[ind] = new Color[frames[ind].Width * frames[ind].Height];
+			frames[ind].GetData(textureDatas[ind]);
 		}
 		
+	
+
+    //Get smallest rectangle from Texture, cased on color
+    public static Rectangle GetSmallestRectangleFromTexture(Texture2D Texture)
+    {
+        //Create our index of sprite frames
+        Color[,] Colors = TextureTo2DArray(Texture);
+ 
+        //determine the min/max bounds
+        int x1 = 9999999, y1 = 9999999;
+        int x2 = -999999, y2 = -999999;
+ 
+        for (int a = 0; a < Texture.Width; a++)
+        {
+            for (int b = 0; b < Texture.Height; b++)
+            {
+                //If we find a non transparent pixel, update bounds if required
+                if (Colors[a, b].A != 0)
+                {
+                    if (x1 > a) x1 = a;
+                    if (x2 < a) x2 = a;
+ 
+                    if (y1 > b) y1 = b;
+                    if (y2 < b) y2 = b;
+                }
+            }
+        }
+ 
+        //We now have our smallest possible rectangle for this texture
+        return new Rectangle(x1, y1, x2 - x1 + 1, y2 - y1 + 1);
+    }
+ 
+    //convert texture to 2d array
+    private static Color[,] TextureTo2DArray(Texture2D texture)
+    {
+        //Texture.GetData returns a 1D array
+        Color[] colors1D = new Color[texture.Width * texture.Height];
+        texture.GetData(colors1D);
+ 
+        //convert the 1D array to 2D for easier processing
+        Color[,] colors2D = new Color[texture.Width, texture.Height];
+        for (int x = 0; x < texture.Width; x++)
+            for (int y = 0; y < texture.Height; y++)
+                colors2D[x, y] = colors1D[x + y * texture.Width];
+ 
+        	return colors2D;
+   	 	}
 	}
-	*/
+	
+	
+	
+	
 }

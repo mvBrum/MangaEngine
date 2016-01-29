@@ -26,6 +26,8 @@ namespace baseProject
 		//coisas da instância
 		public int x = 0;
 		public int y = 0;
+		private int xprevious = 0;
+		private int yprevious = 0;
 		public Sprite sprite;
 		public double xscale = 1 ;//{get;}
 		public double yscale = 1 ;//{get;}
@@ -34,10 +36,11 @@ namespace baseProject
 		public Color color = Color.Black;
 		public Rectangle boxCollision = new Rectangle(0,0,0,0);
 		private Boolean active = true;
-		
+		public Boolean solid = false;
+		public Boolean precise = false;
 		
 		public Objeto(){
-			GameBase.objetos.Add(this);						
+			GameBase.objetos.Add(this);							
 		}
 					
 		
@@ -69,6 +72,7 @@ namespace baseProject
 	   
 	    public virtual void Step()
 	    {
+	    	
 	    	//atualiza a box do player				
 			if (sprite!=null){
 				boxCollision = new Rectangle(Convert.ToInt32(x-(sprite.origin.X)*xscale),Convert.ToInt32(y-(sprite.origin.Y)*yscale),Convert.ToInt16(sprite.Width*xscale),Convert.ToInt16(sprite.Height*yscale));
@@ -76,6 +80,15 @@ namespace baseProject
 				sprite.Step();
 			}
 	    	
+	    	//colisão solids
+	    	if (solid==true && CollisionOk("_solid")){
+				x=xprevious;//xstart;
+				y=yprevious;//ystart;
+			}
+	    	//guardar a pos anterior:
+	    	xprevious=x;
+	    	yprevious=y;
+
 	    }
 	   
 	    public abstract void Draw(SpriteBatch s);
@@ -156,18 +169,124 @@ namespace baseProject
 	   		Boolean col=false;
 	   		foreach(Objeto current in GameBase.objetos)
 	        {
-	   			if (current.identify==identify2 && this!=current && col==false){
-	            	col = this.boxCollision.Intersects(current.boxCollision);
+	   			if ((col==false && this!=current)
+	   			    &&(
+	   			    (identify2=="_solid" && current.solid==true) || 
+	   			    (current.identify==identify2)
+	   			   	))
+	   			{
+	            	col = checkCollision(this,current);
 	   			}
 	        }	
 			return col;	   		
 	   }
 	   
 	   public Boolean CollisionInstancesOk(Objeto obj1,Objeto obj2){
-	   		return obj1.boxCollision.Intersects(obj2.boxCollision);	   		
+	   		return checkCollision(obj1,obj2);//obj1.boxCollision.Intersects(obj2.boxCollision);	   		
 	   }
 	   
+	   private Boolean checkCollision(Objeto obj1,Objeto obj2){
+	   		Boolean col = obj1.boxCollision.Intersects(obj2.boxCollision);
+	   		if (col==true){
+	   			if (obj1.precise || obj2.precise){
+	        		int ind = (int)Math.Floor(obj1.sprite.frameCurrent);//arredondando o índice	
+	        		col = IntersectsPixel2(obj1.boxCollision,obj1.sprite.textureDatas[ind],obj2.boxCollision,obj2.sprite.textureDatas[ind],obj1.precise,obj2.precise);	   			
+	   			}				
+        	}
+	   		return col;
+	   }
 	   
+	   public bool IntersectsPixel2(Rectangle rect1, Color[] data1,
+                                    Rectangle rect2, Color[] data2,Boolean precise1,Boolean precise2)
+        {
+	   	
+	   	//rect1.X = Convert.ToInt32(rect1.X*(1/xscale));
+	   	//rect1.Y = Convert.ToInt32(rect1.Y*(1/yscale));
+	   	//rect2.X = Convert.ToInt32(rect2.X*(1/xscale));
+	   	//rect2.Y = Convert.ToInt32(rect2.Y*(1/yscale));
+	   	/*
+	   	rect1.Width = Convert.ToInt32(rect1.Width*(1/xscale));
+	   	rect1.Height = Convert.ToInt32(rect1.Height*(1/yscale));
+	   	rect2.Width = Convert.ToInt32(rect2.Width*(1/xscale));
+	   	rect2.Height = Convert.ToInt32(rect2.Height*(1/yscale));
+	   	*/
+	   	
+	   	int top = Math.Max(rect1.Top, rect2.Top);
+        int bottom = Math.Min(rect1.Bottom, rect2.Bottom);
+        int left = Math.Max(rect1.Left, rect2.Left);
+        int right = Math.Min(rect1.Right, rect2.Right);
+		
+        for (int y = top; y < bottom; y++)
+        {
+            for (int x = left; x < right; x++)
+            {
+                Color color1 = data1[(x - rect1.Left) +
+                                         (y - rect1.Top) * rect1.Width];
+                Color color2 = data2[(x - rect2.Left) +
+                                         (y - rect2.Top) * rect2.Width];
+
+            	int cor1,cor2;
+            	if (precise1==true) {cor1=0;} else cor1=-1;
+            	if (precise2==true) {cor2=0;} else cor2=-1;
+            	
+                if (color1.A != cor1 && color2.A != cor2)
+                    return true;
+            }
+        }
+	   	
+	   	/*
+            int top = Math.Max(rect1.Top, rect2.Top);
+            int bottom = Math.Min(rect1.Bottom, rect2.Bottom);
+            int left = Math.Max(rect1.Left, rect2.Left);
+            int right = Math.Min(rect1.Right, rect2.Right);
+
+            for (int y = top; y < bottom; y++)
+            {
+                for (int x = left; x < right; x++)
+                {
+                    Color color1 = data1[Convert.ToInt16((x - rect1.Left)*xscale +
+                	                                     (y - rect1.Top)*yscale * rect1.Width*xscale)];
+                    Color color2 = data2[Convert.ToInt16((x - rect2.Left)*xscale +
+                	                                     (y - rect2.Top)*yscale * rect2.Width*xscale)];
+
+                    if (color1.A != 0 && color2.A != 0)
+                        return true;
+                }
+            }
+
+*/
+
+            return false;
+
+        }
+	   
+	   static bool IntersectsPixel(Rectangle rect1, Color[] data1,
+                                    Rectangle rect2, Color[] data2)
+        {
+            int top = Math.Max(rect1.Top, rect2.Top);
+            int bottom = Math.Min(rect1.Bottom, rect2.Bottom);
+            int left = Math.Max(rect1.Left, rect2.Left);
+            int right = Math.Min(rect1.Right, rect2.Right);
+
+            for (int y = top; y < bottom; y++)
+            {
+                for (int x = left; x < right; x++)
+                {
+                    Color color1 = data1[(x - rect1.Left) +
+                                             (y - rect1.Top) * rect1.Width];
+                    Color color2 = data2[(x - rect2.Left) +
+                                             (y - rect2.Top) * rect2.Width];
+
+                    if (color1.A != 0 && color2.A != 0)
+                        return true;
+                }
+            }
+
+
+
+            return false;
+
+        }
 	   
 	    public void DrawSelf(SpriteBatch s){	    	
 		   	if (sprite!=null){

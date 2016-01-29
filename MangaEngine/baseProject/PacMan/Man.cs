@@ -64,13 +64,12 @@ namespace baseProject.PacMan
 			
 			//Colisions
 			//if (CollisionInstancesOk(GameBase.joao,GameBase.jose)){
+			
 			if (CollisionOk(Man.IDENTIFY)){
 				col=true;
-				x=xstart;
-				y=ystart;
 			}
 			else col=false;
-			
+	    	
 			//Controls
 			if (ClickOk()){
 				if (color==Color.Black){

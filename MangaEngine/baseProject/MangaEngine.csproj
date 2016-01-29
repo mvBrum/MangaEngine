@@ -88,6 +88,9 @@
     <Content Include="Content\run\up\3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\man.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Content\x.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

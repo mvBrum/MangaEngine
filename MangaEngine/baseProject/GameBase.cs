@@ -196,6 +196,7 @@ namespace baseProject
 		
 		public static void LoadResources(ContentManager content) //load resources
 	    {
+			/*
 			//Spr_man = new Sprite(content.Load<Texture2D>("run/1"));						
 			Spr_right = new Sprite(content,"run/right/1","run/right/2","run/right/3","run/right/2");
 			//Spr_right.setOrigin(Sprite.Bounds.CENTER);"x","x","x","x");//
@@ -205,7 +206,13 @@ namespace baseProject
 			//Spr_up.setOrigin(Sprite.Bounds.CENTER);"x","x","x","x");//			
 			Spr_down = new Sprite(content,"run/down/1","run/down/2","run/down/3","run/down/2");
 			//Spr_down.setOrigin(Sprite.Bounds.CENTER);"x","x","x","x");//
-			
+			*/
+						
+			Spr_right = new Sprite(content,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
+			Spr_left = new Sprite(content,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
+			Spr_up = new Sprite(content,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
+			Spr_down = new Sprite(content,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
+
 			FontMain = content.Load<SpriteFont>("corbel");
 	    }
 		
@@ -216,30 +223,35 @@ namespace baseProject
 		public static void GameStart() //Início do jogo, crie as instâncias aqui!
 	    {
 			//Instâncias
-			joao = new Man("Joao",100,300,Spr_down,0.1,0.1);			
+			joao = new Man("Joao",100,300,Spr_down,1,1);
+			joao.solid = true;	
+			//joao.precise=true;			
 			//joao.sprite = Spr_down;
 			//joao.sprite.frameSpeed = 0.5;
-			//joao.xscale = 0.1;
-			//joao.yscale = 0.1;
-			//joao.setScale(0.1,0.1);
+			//joao.xscale = 1;
+			//joao.yscale = 1;
+			//joao.setScale(1,1);
 			//joao.x = 100;
 			//joao.y = 300;
 			//joao.color = Color.Black;
 			//joao.setSprite(Spr_right);
 			//joao.sprite.setOrigin(Sprite.Bounds.CENTER);
 			
-			jose = new Man("Jose",200,300,Spr_down,0.1,0.1);
-			//jose.xscale = 0.1;
-			//jose.yscale = 0.1;
+			jose = new Man("Jose",300,300,Spr_down,1,1);
+			jose.solid = true;
+			//jose.xscale = 1;
+			//jose.yscale = 1;
 			//jose.sprite = Spr_down;			
-			//jose.setScale(0.1,0.1);
+			//jose.setScale(1,1);
 			//jose.x = 200;
 			//jose.y = 300;
 			//jose.setSprite(Spr_right);
 			//jose.angle = 1;
 			//jose.color = Color.Black;
 			
-			maria = new Man("Maria",100,100,Spr_down,0.1,0.1);
+			maria = new Man("Maria",500,300,Spr_down,1,1);
+			maria.solid=true;
+			maria.precise=true;
 	    }
 		
 		

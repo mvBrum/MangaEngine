@@ -15,6 +15,7 @@ ok	criar instância
 *girar a box de colisão do player de acordo com o angle
 ok	destruir instância
 ok	ativar/desativar instância
+
 	press button/click 
 *usar um timer para executar a ação apenas uma vez no check	
 *melhorar o time de press
@@ -28,3 +29,19 @@ ok	ativar/desativar instância
 	partículas
 	áudio
 	joystick
+ok	colisão por pixel
+-colisão precise e solid
+-colisão automática já implementada entre os solids.
+*algoritmo atual: scale não pode ser maior que 1 pois faltariam pixels na array de cores.
+*resolver escalando o algoritmo.
+*implementar rotate na checagem.
+
+
+	Melhorias
+Dividir a Classe Objeto e seus membros em outras classes(Interfaces), para otimizar o desempenho.
+Ex: 
+Objeto: name,x,y,image...
+Anime: sprite,image_speed,image_index...
+Bounding: boxCollision,CollisionByBox...
+Precise: precise,solid,collisionByPixel...
+Phisic: mass,force,gravity,shape...
