@@ -38,7 +38,7 @@ ok	colisão por pixel
 
 ok	boundingbox automático
 -guardar dist top,left ao fazer o autobounding para corrigir a box dps.
-
+*bug na colisão por pixel
 
 
 	Melhorias

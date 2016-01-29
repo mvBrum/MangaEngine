@@ -210,7 +210,7 @@ namespace baseProject
 						
 			Spr_right = new Sprite(content,true,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
 			Spr_left = new Sprite(content,true,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
-			Spr_up = new Sprite(content,false,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
+			Spr_up = new Sprite(content,true,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
 			Spr_down = new Sprite(content,false,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
 
 			FontMain = content.Load<SpriteFont>("corbel");

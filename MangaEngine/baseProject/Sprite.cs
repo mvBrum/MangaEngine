@@ -139,13 +139,18 @@ namespace baseProject
 			//inicializa a array da subimage:
 			textureDatas[ind] = new Color[frames[ind].Width,frames[ind].Height];
 			//preencher a array com um bi de cores da subimage:
-			textureDatas[ind] = TextureTo2DArray(frames[ind]);
+			//textureDatas[ind] = TextureTo2DArray(frames[ind]);
 				//frames[ind].GetData(textureDatas[ind]);
 			//guardar a box reduzida da subimage:
 			if (autoboundingbox){
+				textureDatas[ind] = TextureTo2DArray(frames[ind]);
 				box[ind] = GetSmallestRectangleFromTexture(frames[ind],textureDatas[ind]);								
+				textureDatas[ind] = TextureTo2DArrayInBoundBoxing(frames[ind],box[ind]);
 			}
-			else box[ind] = new Rectangle(0,0,frames[0].Width,frames[0].Height);
+			else {
+				textureDatas[ind] = TextureTo2DArray(frames[ind]);
+				box[ind] = new Rectangle(0,0,frames[0].Width,frames[0].Height);
+			}
 			
 		}
 		
@@ -194,7 +199,30 @@ namespace baseProject
                 colors2D[x, y] = colors1D[x + y * texture.Width];
  
         	return colors2D;
-   	 	}
+   	 }
+    
+    //convert texture to 2d array dentro de boundingbox
+    private static Color[,] TextureTo2DArrayInBoundBoxing(Texture2D texture,Rectangle rect)
+    {
+        //Texture.GetData returns a 1D array
+        Color[] colors1D = new Color[texture.Width * texture.Height];
+        texture.GetData(colors1D);
+ 		
+        if (rect.X>texture.Width){rect.X=0;}
+        if (rect.Y>texture.Height){rect.Y=0;}
+        if (rect.X+rect.Width>texture.Width){rect.Width=texture.Width-rect.X;}
+        if (rect.Y+rect.Height>texture.Height){rect.Height=texture.Height-rect.Y;}
+        
+        //convert the 1D array to 2D for easier processing
+        Color[,] colors2D = new Color[rect.Width, rect.Height];
+        for (int x = 0; x < rect.Width; x++)
+            for (int y =  0; y <  rect.Height; y++)
+                colors2D[x, y] = colors1D[x + y * rect.Width];
+ 
+        	return colors2D;
+   	 }
+    
+    
 	}
 	
 	
