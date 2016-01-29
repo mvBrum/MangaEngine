@@ -44,7 +44,7 @@ namespace baseProject.PacMan
 		public override void Draw(SpriteBatch s)
 	    {
 			setDepthByY();			
-			DrawRectangle(new Rectangle(x-((sprite.WidthOrig-sprite.width)/2),y-((sprite.HeightOrig-sprite.height)/2),sprite.WidthOrig,sprite.HeightOrig),Color.Blue,s);//box orig
+			//DrawRectangle(new Rectangle(x-((sprite.WidthOrig-sprite.width)/2),y-((sprite.HeightOrig-sprite.height)/2),sprite.WidthOrig,sprite.HeightOrig),Color.Blue,s);//box orig
 			DrawRectangle(boxCollision,Color.Fuchsia,s);//box player			
 			//DrawRectangle(sprite.box[(int)sprite.frameCurrent],Color.Blue,s);//boxCollision image												
 			s.DrawString(GameBase.FontMain, name+" "+ok+" x:"+x+" y:"+y+" Depth:"+layer+" Angle:"+angle+" Collide?:"+col, new Vector2(x,y), Color.Black);			

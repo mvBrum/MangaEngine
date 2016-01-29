@@ -51,7 +51,7 @@ namespace baseProject
 		}
 		
 		//criar com lista de arquivos
-		public Sprite(ContentManager content,params String[] files) 
+		public Sprite(ContentManager content,Boolean autoboundingbox,params String[] files) 
 		{
 			this.frames = new Texture2D[files.Length];
 			this.textureDatas = new Color[files.Length][,];
@@ -60,7 +60,7 @@ namespace baseProject
 			for (int i = 0; i < files.Length; i++)
 	        {
 				this.frames[i] = content.Load<Texture2D>(files[i]);
-				setTextureData(i);
+				setTextureData(i,autoboundingbox);
 	        }
 			
 			this.frameCount = frames.Length;
@@ -70,20 +70,25 @@ namespace baseProject
 			this.width = box[0].Width;//frames[0].Width;//
 			this.height = box[0].Height;//frames[0].Height;//
 			
-			
-			setOrigin(Sprite.Bounds.LEFTUP);//GameBase.fps=0;
+			setOrigin(Sprite.Bounds.CENTERDOWN);//GameBase.fps=0;
 			//setOrigin(200,200);
 		}
 		
 		public void Draw(SpriteBatch s,int x,int y,double xscale,double yscale,float angle,float depth,Color color){
 		    	
+			
+			
 			//draw sprite
 	    	int ind = (int)Math.Floor(frameCurrent);//arredondando o índice	    			    	
 	    	//Rectangle box = new Rectangle(Convert.ToInt32(x-(widthOrig-width)),Convert.ToInt32(y-(heightOrig-height)),Convert.ToInt32(widthOrig*xscale),Convert.ToInt32(heightOrig*yscale));//Convert.ToInt32(x-origin.X),Convert.ToInt32(y-origin.Y)
-	    	Rectangle box = new Rectangle(x,y,Convert.ToInt32(widthOrig*xscale),Convert.ToInt32(heightOrig*yscale));//Convert.ToInt32(x-origin.X),Convert.ToInt32(y-origin.Y)
-	    	s.Draw(frames[ind],box,null,color,angle/360,origin,SpriteEffects.None,depth);
+	    	//Rectangle box = new Rectangle((int)(x-(widthOrig-width)/2*xscale)-1,(int)(y-(HeightOrig-height)/2*xscale)-1,Convert.ToInt32(widthOrig*xscale+1),Convert.ToInt32(heightOrig*yscale+1));//Convert.ToInt32(x-origin.X),Convert.ToInt32(y-origin.Y)
+	    	Rectangle boxdraw = new Rectangle((int)(x-(box[ind].X)*xscale),(int)(y-(box[ind].Y)*xscale),Convert.ToInt32(widthOrig*xscale),Convert.ToInt32(heightOrig*yscale));//Convert.ToInt32(x-origin.X),Convert.ToInt32(y-origin.Y)
+	    	s.Draw(frames[ind],boxdraw,null,color,angle/360,origin,SpriteEffects.None,depth);
 	    	//s.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList,0,10);	    	
-	    	
+	    	/*
+ 			if (box[ind].X>0){
+				//nada
+			}*/
 		}
 		
 		public void Step(){
@@ -122,29 +127,32 @@ namespace baseProject
 				break;
 			
 			}
-			origin.X += (widthOrig-width)/2;
-			origin.Y += (heightOrig-height)/2;
+			/*origin.X += (widthOrig-width)/2;
+			origin.Y += (heightOrig-height)/2;*/
 		}
 		
 		public void setOrigin(int xoffset,int yoffset){
 			origin = new Vector2(xoffset,yoffset);			
 		}
 		
-		private void setTextureData(int ind){			
+		private void setTextureData(int ind,Boolean autoboundingbox){			
 			//inicializa a array da subimage:
 			textureDatas[ind] = new Color[frames[ind].Width,frames[ind].Height];
 			//preencher a array com um bi de cores da subimage:
 			textureDatas[ind] = TextureTo2DArray(frames[ind]);
 				//frames[ind].GetData(textureDatas[ind]);
 			//guardar a box reduzida da subimage:
-			box[ind] = GetSmallestRectangleFromTexture(frames[ind],textureDatas[ind]);
+			if (autoboundingbox){
+				box[ind] = GetSmallestRectangleFromTexture(frames[ind],textureDatas[ind]);								
+			}
+			else box[ind] = new Rectangle(0,0,frames[0].Width,frames[0].Height);
 			
 		}
 		
 	
 
     //Get smallest rectangle from Texture, cased on color
-    public static Rectangle GetSmallestRectangleFromTexture(Texture2D Texture,Color[,] Colors)
+    public Rectangle GetSmallestRectangleFromTexture(Texture2D Texture,Color[,] Colors)
     {
         //Create our index of sprite frames
         //Color[,] Colors = TextureTo2DArray(Texture);
@@ -160,15 +168,14 @@ namespace baseProject
                 //If we find a non transparent pixel, update bounds if required
                 if (Colors[a, b].A != 0)
                 {
-                    if (x1 > a) x1 = a;
-                    if (x2 < a) x2 = a;
+                	if (x1 > a) {x1 = a;}
+                	if (x2 < a) x2 = a;
  
-                    if (y1 > b) y1 = b;
+                	if (y1 > b) {y1 = b;}
                     if (y2 < b) y2 = b;
                 }
             }
         }
- 
         //We now have our smallest possible rectangle for this texture
         return new Rectangle(x1, y1, x2 - x1 + 1, y2 - y1 + 1);
     }

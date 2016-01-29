@@ -78,8 +78,8 @@ namespace baseProject
 	    	
 	    	//atualiza a box do player				
 			if (sprite!=null){
-	    		boxCollision = new Rectangle(Convert.ToInt32(x*xscale),Convert.ToInt32(y*yscale),Convert.ToInt32(sprite.width*xscale),Convert.ToInt32(sprite.height*yscale));
-	    		//boxCollision = new Rectangle(Convert.ToInt32(x-(sprite.origin.X)*xscale),Convert.ToInt32(y-(sprite.origin.Y)*yscale),Convert.ToInt32(sprite.width*xscale),Convert.ToInt32(sprite.height*yscale));
+	    		//boxCollision = new Rectangle(Convert.ToInt32(x*xscale),Convert.ToInt32(y*yscale),Convert.ToInt32(sprite.width*xscale),Convert.ToInt32(sprite.height*yscale));
+	    		boxCollision = new Rectangle(Convert.ToInt32(x-(sprite.origin.X)*xscale),Convert.ToInt32(y-(sprite.origin.Y)*yscale),Convert.ToInt32(sprite.width*xscale),Convert.ToInt32(sprite.height*yscale));
 				//boxCollision = new Rectangle(Convert.ToInt32(x-(sprite.origin.X-(sprite.WidthOrig-sprite.width))*xscale),Convert.ToInt32(y-(sprite.origin.Y-(sprite.HeightOrig-sprite.height))*yscale),Convert.ToInt32(sprite.width*xscale),Convert.ToInt32(sprite.height*yscale));
 				setRotateBox();
 				sprite.Step();
@@ -226,9 +226,9 @@ namespace baseProject
             for (int x = left; x < right; x++)
             {
                 Color color1 = data1[(x - rect1.Left) ,
-                                         (y - rect1.Top) * rect1.Width];
+                                         (y - rect1.Top) ];//* rect1.Width
                 Color color2 = data2[(x - rect2.Left) ,
-                                         (y - rect2.Top) * rect2.Width];
+                                         (y - rect2.Top)];// * rect2.Width
 
             	int cor1,cor2;
             	if (precise1==true) {cor1=0;} else cor1=-1;

@@ -208,10 +208,10 @@ namespace baseProject
 			//Spr_down.setOrigin(Sprite.Bounds.CENTER);"x","x","x","x");//
 			*/
 						
-			Spr_right = new Sprite(content,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
-			Spr_left = new Sprite(content,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
-			Spr_up = new Sprite(content,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
-			Spr_down = new Sprite(content,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
+			Spr_right = new Sprite(content,true,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
+			Spr_left = new Sprite(content,true,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
+			Spr_up = new Sprite(content,false,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
+			Spr_down = new Sprite(content,false,"man","man","man","man");//"run/down/1","run/down/1","run/down/1","run/down/1");
 
 			FontMain = content.Load<SpriteFont>("corbel");
 	    }
@@ -225,7 +225,7 @@ namespace baseProject
 			//Instâncias
 			joao = new Man("Joao",100,300,Spr_down,1,1);
 			joao.solid = true;	
-			//joao.precise=true;			
+			joao.precise=true;			
 			//joao.sprite = Spr_down;
 			//joao.sprite.frameSpeed = 0.5;
 			//joao.xscale = 1;
@@ -251,7 +251,7 @@ namespace baseProject
 			
 			maria = new Man("Maria",500,300,Spr_down,1,1);
 			maria.solid=true;
-			//maria.precise=true;
+			maria.precise=true;
 	    }
 		
 		
